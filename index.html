@@ -111,8 +111,13 @@
             font-weight: bold;
         }
         
-        .badge-active {
+        .badge-available {
             background: linear-gradient(to right, #00c853, #64dd17);
+            color: white;
+        }
+        
+        .badge-deleted-source {
+            background: linear-gradient(to right, #ff9800, #ff5722);
             color: white;
         }
         
@@ -156,6 +161,19 @@
         .scheme-detail i {
             color: #4fc3f7;
             width: 20px;
+        }
+        
+        .warning-note {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid #ff9800;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #ffcc80;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .scheme-path {
@@ -373,16 +391,16 @@
                 <div>Всего схем</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number" id="activeSchemes">0</div>
-                <div>Активных</div>
+                <div class="stat-number" id="availableSchemes">0</div>
+                <div>Доступно</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="deletedSourceSchemes">0</div>
+                <div>Удалено на источнике</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number" id="deletedSchemes">0</div>
-                <div>Удаленных</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="differentCreators">0</div>
-                <div>Создателей</div>
+                <div>Полностью удалено</div>
             </div>
         </div>
         
@@ -404,18 +422,23 @@
       "creator": "Создатель схемы",
       "finder": "Кто нашел схему",
       "source": "Сайт откуда скачана",
+      "deleted_on_the_source": false,
       "deleted": false
     }
   ]
 }
             </div>
+            <div class="warning-note">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Важно:</strong> 
+                    <strong>deleted_on_the_source: true</strong> - схема удалена на оригинальном сайте, но доступна здесь<br>
+                    <strong>deleted: true</strong> - схема полностью удалена и недоступна для скачивания
+                </div>
+            </div>
             <ol start="3" style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
                 <li>Потом напишите автору в дискорд cobaka1967 предварительно кинув заявки в друзья! И ожидайте пока он рассмотрит</li>
             </ol>
-            <p style="margin-top: 15px; color: #4fc3f7;">
-                <i class="fas fa-lightbulb"></i> 
-                <strong>Примечание:</strong> Все поля кроме name, version и path являются необязательными
-            </p>
         </div>
         
         <footer>
@@ -494,9 +517,9 @@
                 }
                 
                 // Статистика
-                let activeCount = 0;
+                let availableCount = 0;
+                let deletedSourceCount = 0;
                 let deletedCount = 0;
-                const creators = new Set();
                 
                 // Создаем карточки для каждой схемы
                 jsonData.schemes.forEach((scheme, index) => {
@@ -505,23 +528,35 @@
                     
                     // Определяем статус схемы
                     const isDeleted = scheme.deleted === true;
+                    const isDeletedOnSource = scheme.deleted_on_the_source === true;
+                    
+                    // Обновляем статистику
                     if (isDeleted) {
                         deletedCount++;
+                    } else if (isDeletedOnSource) {
+                        deletedSourceCount++;
                     } else {
-                        activeCount++;
-                    }
-                    
-                    // Добавляем создателя в статистику
-                    if (scheme.creator) {
-                        creators.add(scheme.creator);
+                        availableCount++;
                     }
                     
                     // Создаем URL для скачивания
                     let downloadUrl = scheme.path;
                     
+                    // Определяем бейдж
+                    let badgeClass = 'badge-available';
+                    let badgeText = 'ДОСТУПНА';
+                    
+                    if (isDeleted) {
+                        badgeClass = 'badge-deleted';
+                        badgeText = 'УДАЛЕНА';
+                    } else if (isDeletedOnSource) {
+                        badgeClass = 'badge-deleted-source';
+                        badgeText = 'УДАЛЕНА НА ИСТОЧНИКЕ';
+                    }
+                    
                     // Создаем HTML карточки
                     card.innerHTML = `
-                        ${isDeleted ? '<div class="scheme-badge badge-deleted">УДАЛЕНА</div>' : '<div class="scheme-badge badge-active">АКТИВНА</div>'}
+                        <div class="scheme-badge ${badgeClass}">${badgeText}</div>
                         
                         <div class="scheme-name">
                             <i class="fas fa-cube"></i>
@@ -553,6 +588,12 @@
                                 <i class="fas fa-globe"></i>
                                 <span><strong>Источник:</strong> ${scheme.source}</span>
                             </div>` : ''}
+                            
+                            ${isDeletedOnSource ? `
+                            <div class="warning-note">
+                                <i class="fas fa-info-circle"></i>
+                                <div>Эта схема была удалена на оригинальном сайте, но сохранена здесь</div>
+                            </div>` : ''}
                         </div>
                         
                         <div class="scheme-path">
@@ -564,7 +605,7 @@
                                 data-name="${scheme.name}"
                                 ${isDeleted ? 'disabled' : ''}>
                             <i class="fas fa-download"></i> 
-                            ${isDeleted ? 'Схема удалена' : 'Скачать схему'}
+                            ${isDeleted ? 'Схема удалена' : isDeletedOnSource ? 'Скачать (архивная)' : 'Скачать схему'}
                         </button>
                     `;
                     
@@ -575,15 +616,21 @@
                 document.querySelectorAll('.download-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         if (this.disabled) {
-                            showNotification('Эта схема была удалена автором', true);
+                            showNotification('Эта схема была полностью удалена', true);
                             return;
                         }
                         
                         const schemeName = this.getAttribute('data-name');
                         const downloadUrl = this.getAttribute('data-url');
                         
+                        // Определяем тип скачивания
+                        const isArchival = this.textContent.includes('архивная');
+                        const message = isArchival ? 
+                            `Скачивание архивной схемы "${schemeName}"...` : 
+                            `Скачивание "${schemeName}"...`;
+                        
                         // Показываем уведомление о начале скачивания
-                        showNotification(`Скачивание "${schemeName}"...`);
+                        showNotification(message);
                         
                         // Скачиваем файл
                         downloadFile(downloadUrl, `${schemeName.replace(/\s+/g, '_')}.litematic`);
@@ -591,7 +638,7 @@
                 });
                 
                 // Обновляем статистику
-                updateStats(jsonData.schemes.length, activeCount, deletedCount, creators.size);
+                updateStats(jsonData.schemes.length, availableCount, deletedSourceCount, deletedCount);
                 
                 showNotification(`Загружено ${jsonData.schemes.length} схем из litematica.json`);
                 
@@ -622,6 +669,18 @@
       "creator": "Cobaken555",
       "finder": "Cobaken555",
       "source": "GitHub",
+      "deleted_on_the_source": false,
+      "deleted": false
+    },
+    {
+      "name": "Архивная схема",
+      "version": "1.18.2",
+      "path": "https://ваш-сайт/archived_scheme.litematic",
+      "description": "Схема удаленная на PlanetMinecraft",
+      "creator": "Unknown",
+      "finder": "Cobaken555",
+      "source": "PlanetMinecraft",
+      "deleted_on_the_source": true,
       "deleted": false
     }
   ]
@@ -636,14 +695,14 @@
         }
         
         // Обновить статистику
-        function updateStats(total, active, deleted, creators) {
+        function updateStats(total, available, deletedSource, deleted) {
             const statsContainer = document.getElementById('statsContainer');
             statsContainer.style.display = 'flex';
             
             document.getElementById('totalSchemes').textContent = total;
-            document.getElementById('activeSchemes').textContent = active;
+            document.getElementById('availableSchemes').textContent = available;
+            document.getElementById('deletedSourceSchemes').textContent = deletedSource;
             document.getElementById('deletedSchemes').textContent = deleted;
-            document.getElementById('differentCreators').textContent = creators;
         }
         
         // Функция для скачивания файла
