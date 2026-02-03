@@ -92,12 +92,33 @@
             padding: 20px;
             border-left: 5px solid #3949ab;
             transition: all 0.3s;
+            position: relative;
         }
         
         .scheme-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             border-left-color: #4fc3f7;
+        }
+        
+        .scheme-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .badge-active {
+            background: linear-gradient(to right, #00c853, #64dd17);
+            color: white;
+        }
+        
+        .badge-deleted {
+            background: linear-gradient(to right, #f44336, #d32f2f);
+            color: white;
         }
         
         .scheme-name {
@@ -117,6 +138,24 @@
             border-radius: 15px;
             font-size: 0.8rem;
             margin-left: 10px;
+        }
+        
+        .scheme-details {
+            margin-bottom: 15px;
+            color: #b0bec5;
+            font-size: 0.9rem;
+        }
+        
+        .scheme-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .scheme-detail i {
+            color: #4fc3f7;
+            width: 20px;
         }
         
         .scheme-path {
@@ -141,11 +180,19 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s;
+            width: 100%;
+            justify-content: center;
         }
         
         .download-btn:hover {
             background: linear-gradient(to right, #00e676, #76ff03);
             transform: scale(1.05);
+        }
+        
+        .download-btn:disabled {
+            background: #757575;
+            cursor: not-allowed;
+            transform: none;
         }
         
         .no-schemes {
@@ -198,6 +245,8 @@
             font-size: 0.9rem;
             margin-bottom: 15px;
             overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         footer {
@@ -248,6 +297,29 @@
             box-shadow: 0 5px 15px rgba(57, 73, 171, 0.4);
         }
         
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #b0bec5;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -259,6 +331,11 @@
             
             .schemes-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
@@ -290,6 +367,25 @@
             </div>
         </div>
         
+        <div id="statsContainer" class="stats" style="display: none;">
+            <div class="stat-item">
+                <div class="stat-number" id="totalSchemes">0</div>
+                <div>Всего схем</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="activeSchemes">0</div>
+                <div>Активных</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="deletedSchemes">0</div>
+                <div>Удаленных</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="differentCreators">0</div>
+                <div>Создателей</div>
+            </div>
+        </div>
+        
         <div class="json-info">
             <h3><i class="fas fa-code"></i> О файле litematica.json</h3>
             <p>Чтобы добавить свои схемы вам надо:</p>
@@ -303,7 +399,12 @@
     {
       "name": "Название схемы",
       "version": "Версия Minecraft",
-      "path": "https://сайт/путь/к/файлу.litematic"
+      "path": "https://сайт/путь/к/файлу.litematic",
+      "description": "Описание схемы",
+      "creator": "Создатель схемы",
+      "finder": "Кто нашел схему",
+      "source": "Сайт откуда скачана",
+      "deleted": false
     }
   ]
 }
@@ -313,7 +414,7 @@
             </ol>
             <p style="margin-top: 15px; color: #4fc3f7;">
                 <i class="fas fa-lightbulb"></i> 
-                <strong>Примечание:</strong> Путь к файлу может быть абсолютным URL (https://...) или относительным путем
+                <strong>Примечание:</strong> Все поля кроме name, version и path являются необязательными
             </p>
         </div>
         
@@ -392,25 +493,78 @@
                     return;
                 }
                 
+                // Статистика
+                let activeCount = 0;
+                let deletedCount = 0;
+                const creators = new Set();
+                
                 // Создаем карточки для каждой схемы
                 jsonData.schemes.forEach((scheme, index) => {
                     const card = document.createElement('div');
                     card.className = 'scheme-card';
                     
+                    // Определяем статус схемы
+                    const isDeleted = scheme.deleted === true;
+                    if (isDeleted) {
+                        deletedCount++;
+                    } else {
+                        activeCount++;
+                    }
+                    
+                    // Добавляем создателя в статистику
+                    if (scheme.creator) {
+                        creators.add(scheme.creator);
+                    }
+                    
                     // Создаем URL для скачивания
                     let downloadUrl = scheme.path;
                     
+                    // Создаем HTML карточки
                     card.innerHTML = `
+                        ${isDeleted ? '<div class="scheme-badge badge-deleted">УДАЛЕНА</div>' : '<div class="scheme-badge badge-active">АКТИВНА</div>'}
+                        
                         <div class="scheme-name">
                             <i class="fas fa-cube"></i>
                             ${scheme.name}
                             <span class="scheme-version">${scheme.version || '1.16+'}</span>
                         </div>
+                        
+                        <div class="scheme-details">
+                            ${scheme.description ? `
+                            <div class="scheme-detail">
+                                <i class="fas fa-align-left"></i>
+                                <span><strong>Описание:</strong> ${scheme.description}</span>
+                            </div>` : ''}
+                            
+                            ${scheme.creator ? `
+                            <div class="scheme-detail">
+                                <i class="fas fa-user"></i>
+                                <span><strong>Создатель:</strong> ${scheme.creator}</span>
+                            </div>` : ''}
+                            
+                            ${scheme.finder ? `
+                            <div class="scheme-detail">
+                                <i class="fas fa-search"></i>
+                                <span><strong>Нашел:</strong> ${scheme.finder}</span>
+                            </div>` : ''}
+                            
+                            ${scheme.source ? `
+                            <div class="scheme-detail">
+                                <i class="fas fa-globe"></i>
+                                <span><strong>Источник:</strong> ${scheme.source}</span>
+                            </div>` : ''}
+                        </div>
+                        
                         <div class="scheme-path">
                             <i class="fas fa-link"></i> ${downloadUrl}
                         </div>
-                        <button class="download-btn" data-index="${index}" data-url="${downloadUrl}" data-name="${scheme.name}">
-                            <i class="fas fa-download"></i> Скачать схему
+                        
+                        <button class="download-btn" 
+                                data-url="${downloadUrl}" 
+                                data-name="${scheme.name}"
+                                ${isDeleted ? 'disabled' : ''}>
+                            <i class="fas fa-download"></i> 
+                            ${isDeleted ? 'Схема удалена' : 'Скачать схему'}
                         </button>
                     `;
                     
@@ -420,6 +574,11 @@
                 // Добавляем обработчики для кнопок скачивания
                 document.querySelectorAll('.download-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
+                        if (this.disabled) {
+                            showNotification('Эта схема была удалена автором', true);
+                            return;
+                        }
+                        
                         const schemeName = this.getAttribute('data-name');
                         const downloadUrl = this.getAttribute('data-url');
                         
@@ -430,6 +589,9 @@
                         downloadFile(downloadUrl, `${schemeName.replace(/\s+/g, '_')}.litematic`);
                     });
                 });
+                
+                // Обновляем статистику
+                updateStats(jsonData.schemes.length, activeCount, deletedCount, creators.size);
                 
                 showNotification(`Загружено ${jsonData.schemes.length} схем из litematica.json`);
                 
@@ -453,9 +615,14 @@
 {
   "schemes": [
     {
-      "name": "Моя схема",
-      "version": "1.21.1",
-      "path": "https://raw.githubusercontent.com/username/repo/main/scheme.litematic"
+      "name": "3x3 fricker sheeper",
+      "version": "1.16.5-1.21.11+",
+      "path": "https://raw.githubusercontent.com/Cobaken555/litematicabuildsite/main/bin/litematica/3x3_door_fricker_sheepler.litematic",
+      "description": "Компактная 3x3 машина",
+      "creator": "Cobaken555",
+      "finder": "Cobaken555",
+      "source": "GitHub",
+      "deleted": false
     }
   ]
 }
@@ -466,6 +633,17 @@
                 
                 showNotification('Ошибка загрузки litematica.json', true);
             }
+        }
+        
+        // Обновить статистику
+        function updateStats(total, active, deleted, creators) {
+            const statsContainer = document.getElementById('statsContainer');
+            statsContainer.style.display = 'flex';
+            
+            document.getElementById('totalSchemes').textContent = total;
+            document.getElementById('activeSchemes').textContent = active;
+            document.getElementById('deletedSchemes').textContent = deleted;
+            document.getElementById('differentCreators').textContent = creators;
         }
         
         // Функция для скачивания файла
@@ -503,6 +681,9 @@
                         <div>Обновление списка схем...</div>
                     </div>
                 `;
+                
+                // Скрываем статистику
+                document.getElementById('statsContainer').style.display = 'none';
                 
                 // Загружаем схемы заново
                 loadSchemesFromJson();
