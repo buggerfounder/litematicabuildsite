@@ -1,0 +1,8 @@
+{ 
+  "schemes": 
+  [ 
+    { "name": "Название схемы", 
+      "version": "Версия Minecraft", 
+      "path": "/путь/к/файлу.litematic" } 
+  ] 
+}
