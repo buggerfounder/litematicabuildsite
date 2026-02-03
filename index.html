@@ -276,9 +276,8 @@
         </header>
         
         <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i>Обновить схему</h3>
-            <p>Сайт автоматически загружает схемы из файла <strong>litematica.json</strong>и вам как только автор обновит нажать на обновить список схем!</p>
-            </div>
+            <h3><i class="fas fa-info-circle"></i> Обновить схему</h3>
+            <p>Сайт автоматически загружает схемы из файла <strong>litematica.json</strong> и вам как только автор обновит нажать на обновить список схем!</p>
             <button class="update-btn" id="refreshBtn">
                 <i class="fas fa-sync-alt"></i> Обновить список схем
             </button>
@@ -295,9 +294,10 @@
             <h3><i class="fas fa-code"></i> О файле litematica.json</h3>
             <p>Чтобы добавить свои схемы вам надо:</p>
             <ol style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
-                <li>Создайте файл <strong>litematica.json</strong> на рабочем столе,</li>
+                <li>Создайте файл <strong>litematica.json</strong> на рабочем столе</li>
                 <li>Напишите в файле <strong>litematica.json</strong> этот код заменяя на свое:</li>
-                            <div class="json-code">
+            </ol>
+            <div class="json-code">
 {
   "schemes": [
     {
@@ -308,6 +308,7 @@
   ]
 }
             </div>
+            <ol start="3" style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
                 <li>Потом напишите автору в дискорд cobaka1967 предварительно кинув заявки в друзья! И ожидайте пока он рассмотрит</li>
             </ol>
             <p style="margin-top: 15px; color: #4fc3f7;">
@@ -318,7 +319,7 @@
         
         <footer>
             <p>Litematica Downloader © 2026 | Для Minecraft 1.16+ | Неофициальный сайт</p>
-            <p style="margin-top: 10px;">Просто разместите litematica.json рядом с этим файлом</p>
+            <p style="margin-top: 10px;">Сайт загружает схемы из файла litematica.json</p>
         </footer>
     </div>
     
@@ -397,13 +398,7 @@
                     card.className = 'scheme-card';
                     
                     // Создаем URL для скачивания
-                    // Если путь начинается с http, используем его как есть
-                    // Иначе добавляем базовый URL GitHub
                     let downloadUrl = scheme.path;
-                    if (!scheme.path.startsWith('http')) {
-                        // Предполагаем, что это GitHub путь
-                        downloadUrl = `https://raw.githubusercontent.com${scheme.path.startsWith('/') ? '' : '/'}${scheme.path}`;
-                    }
                     
                     card.innerHTML = `
                         <div class="scheme-name">
@@ -431,7 +426,7 @@
                         // Показываем уведомление о начале скачивания
                         showNotification(`Скачивание "${schemeName}"...`);
                         
-                        // Пытаемся скачать файл
+                        // Скачиваем файл
                         downloadFile(downloadUrl, `${schemeName.replace(/\s+/g, '_')}.litematic`);
                     });
                 });
@@ -460,7 +455,7 @@
     {
       "name": "Моя схема",
       "version": "1.21.1",
-      "path": "/username/repo/main/scheme.litematic"
+      "path": "https://raw.githubusercontent.com/username/repo/main/scheme.litematic"
     }
   ]
 }
@@ -475,15 +470,9 @@
         
         // Функция для скачивания файла
         function downloadFile(url, filename) {
-            // Для GitHub raw URLs и других внешних файлов
-            // В реальном приложении здесь может быть более сложная логика
-            // с учетом CORS и других ограничений
-            
             // Создаем временную ссылку для скачивания
             const link = document.createElement('a');
             
-            // Для внешних URL мы просто переходим по ссылке
-            // Браузер сам предложит скачать файл если он в правильном формате
             link.href = url;
             link.target = '_blank';
             link.download = filename;
@@ -507,8 +496,8 @@
             // Добавляем обработчик для кнопки обновления
             document.getElementById('refreshBtn').addEventListener('click', function() {
                 // Показываем индикатор загрузки
-                document.getElementById('loadingIndicator').style.display = 'block';
-                document.getElementById('schemesList').innerHTML = `
+                const schemesList = document.getElementById('schemesList');
+                schemesList.innerHTML = `
                     <div class="loading" id="loadingIndicator">
                         <i class="fas fa-spinner"></i>
                         <div>Обновление списка схем...</div>
