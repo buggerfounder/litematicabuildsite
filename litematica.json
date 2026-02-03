@@ -4,11 +4,11 @@
       "name": "3x3 fricker sheeper",
       "version": "1.16.5-1.21.11+",
       "path": "https://raw.githubusercontent.com/Cobaken555/litematicabuildsite/main/bin/litematica/3x3_door_fricker_sheepler.litematic",
-      "description": "Компактная 3x3 машина для автоматических дверей",
-      "creator": "Cobaken555",
-      "finder": "Cobaken555",
-      "source": "GitHub",
-      "deleted": false
+      "description": "Полезное упражнение со стержнем для овечек",
+      "creator": "fingius",
+      "finder": "Cobaken555 | Admin",
+      "source": "MediaFire",
+      "deleted": true
     }
   ]
 }
