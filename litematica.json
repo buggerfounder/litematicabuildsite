@@ -3,7 +3,7 @@
   [ 
     { "name": "3x3 fricker sheeper", 
       "version": "1.16.5-1.21.11+", 
-      "path": "litematicabuildsite/raw/refs/heads/main/bin/litematica/3x3_door_fricker_sheepler.litematic" 
+      "path": "https://github.com/buggerfounder/litematicabuildsite/raw/refs/heads/main/bin/litematica/3x3_door_fricker_sheepler.litematic" 
     }
   ] 
 }
