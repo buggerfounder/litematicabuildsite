@@ -276,19 +276,8 @@
         </header>
         
         <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Как это работает:</h3>
-            <p>Сайт автоматически загружает схемы из файла <strong>litematica.json</strong>, который должен находиться рядом с index.html.</p>
-            <p>Формат файла должен быть такой:</p>
-            <div class="json-code">
-{
-  "schemes": [
-    {
-      "name": "Название схемы",
-      "version": "Версия Minecraft",
-      "path": "/путь/к/файлу.litematic"
-    }
-  ]
-}
+            <h3><i class="fas fa-info-circle"></i>Обновить схему</h3>
+            <p>Сайт автоматически загружает схемы из файла <strong>litematica.json</strong>и вам как только автор обновит нажать на обновить список схем!</p>
             </div>
             <button class="update-btn" id="refreshBtn">
                 <i class="fas fa-sync-alt"></i> Обновить список схем
@@ -304,11 +293,22 @@
         
         <div class="json-info">
             <h3><i class="fas fa-code"></i> О файле litematica.json</h3>
-            <p>Чтобы добавить свои схемы:</p>
+            <p>Чтобы добавить свои схемы вам надо:</p>
             <ol style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
-                <li>Создайте файл <strong>litematica.json</strong> рядом с index.html</li>
-                <li>Добавьте свои схемы в формате JSON как показано выше</li>
-                <li>Обновите страницу или нажмите кнопку "Обновить список схем"</li>
+                <li>Создайте файл <strong>litematica.json</strong> на рабочем столе,</li>
+                <li>Напишите в файле <strong>litematica.json</strong> этот код заменяя на свое:</li>
+                            <div class="json-code">
+{
+  "schemes": [
+    {
+      "name": "Название схемы",
+      "version": "Версия Minecraft",
+      "path": "https://сайт/путь/к/файлу.litematic"
+    }
+  ]
+}
+            </div>
+                <li>Потом напишите автору в дискорд cobaka1967 предварительно кинув заявки в друзья! И ожидайте пока он рассмотрит</li>
             </ol>
             <p style="margin-top: 15px; color: #4fc3f7;">
                 <i class="fas fa-lightbulb"></i> 
@@ -317,7 +317,7 @@
         </div>
         
         <footer>
-            <p>Litematica Downloader © 2023 | Для Minecraft 1.16+ | Неофициальный сайт</p>
+            <p>Litematica Downloader © 2026 | Для Minecraft 1.16+ | Неофициальный сайт</p>
             <p style="margin-top: 10px;">Просто разместите litematica.json рядом с этим файлом</p>
         </footer>
     </div>
