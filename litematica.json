@@ -8,7 +8,8 @@
       "creator": "fingius",
       "finder": "Cobaken555 | Admin",
       "source": "MediaFire",
-      "deleted": true
+      "deleted_on_the_source": true,
+      "deleted": false
     }
   ]
 }
