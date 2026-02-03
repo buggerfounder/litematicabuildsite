@@ -20,161 +20,9 @@
             padding: 20px;
         }
         
-        /* Логин панель */
-        .login-panel {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        
-        .login-btn {
-            background: linear-gradient(to right, #3949ab, #7b1fa2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(57, 73, 171, 0.4);
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(40, 40, 60, 0.9);
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #3949ab;
-        }
-        
-        .user-info i {
-            color: #4fc3f7;
-        }
-        
-        .logout-btn {
-            background: rgba(244, 67, 54, 0.2);
-            color: #ff8a80;
-            border: 1px solid #f44336;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-        
-        .logout-btn:hover {
-            background: rgba(244, 67, 54, 0.4);
-        }
-        
-        /* Модальное окно логина */
-        .login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .login-form {
-            background: linear-gradient(135deg, #1e1e2e 0%, #252547 100%);
-            padding: 40px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            border: 2px solid #3949ab;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
-        
-        .login-form h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #4fc3f7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .input-group {
-            margin-bottom: 20px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #b0bec5;
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #3949ab;
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .input-group input:focus {
-            outline: none;
-            border-color: #4fc3f7;
-            box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
-        }
-        
-        .login-submit-btn {
-            width: 100%;
-            background: linear-gradient(to right, #00c853, #64dd17);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-        
-        .login-submit-btn:hover {
-            background: linear-gradient(to right, #00e676, #76ff03);
-            transform: translateY(-2px);
-        }
-        
-        .login-error {
-            color: #ff5252;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            display: none;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            color: #b0bec5;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-        
         .container {
             max-width: 1000px;
-            margin: 60px auto 0;
+            margin: 0 auto;
             background: rgba(30, 30, 46, 0.9);
             border-radius: 15px;
             padding: 30px;
@@ -216,47 +64,20 @@
             margin-bottom: 20px;
         }
         
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        .info-box {
+            background: rgba(25, 25, 35, 0.8);
+            border-radius: 10px;
+            padding: 20px;
             margin-bottom: 30px;
-            flex-wrap: wrap;
+            border-left: 5px solid #00c853;
         }
         
-        button {
-            background: linear-gradient(to right, #3949ab, #7b1fa2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
+        .info-box h3 {
+            color: #00c853;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(57, 73, 171, 0.4);
-        }
-        
-        .load-btn {
-            background: linear-gradient(to right, #00c853, #64dd17);
-        }
-        
-        .load-btn:hover {
-            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.4);
-        }
-        
-        .upload-btn {
-            background: linear-gradient(to right, #ff9800, #ff5722);
-        }
-        
-        .upload-btn:hover {
-            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
         }
         
         .schemes-container {
@@ -351,15 +172,15 @@
             100% { transform: rotate(360deg); }
         }
         
-        .json-editor {
+        .json-info {
             background: rgba(20, 20, 30, 0.9);
             border-radius: 10px;
             padding: 20px;
             margin-top: 30px;
-            display: none;
+            border: 1px solid #3949ab;
         }
         
-        .json-editor h3 {
+        .json-info h3 {
             color: #ff9800;
             margin-bottom: 15px;
             display: flex;
@@ -367,9 +188,7 @@
             gap: 10px;
         }
         
-        textarea {
-            width: 100%;
-            min-height: 200px;
+        .json-code {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid #3949ab;
             border-radius: 8px;
@@ -377,22 +196,8 @@
             color: #e0e0e0;
             font-family: monospace;
             font-size: 0.9rem;
-            resize: vertical;
             margin-bottom: 15px;
-        }
-        
-        .editor-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
-        .save-btn {
-            background: linear-gradient(to right, #00c853, #64dd17);
-        }
-        
-        .cancel-btn {
-            background: linear-gradient(to right, #f44336, #d32f2f);
+            overflow-x: auto;
         }
         
         footer {
@@ -402,57 +207,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #78909c;
             font-size: 0.9rem;
-        }
-        
-        .instructions {
-            background: rgba(25, 25, 35, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 30px;
-            border-left: 5px solid #00c853;
-        }
-        
-        .instructions h3 {
-            color: #00c853;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .instructions ul {
-            padding-left: 20px;
-            margin-top: 10px;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
-            color: #b0bec5;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        .upload-area {
-            border: 2px dashed #3949ab;
-            border-radius: 10px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
-        
-        .upload-area:hover {
-            background: rgba(57, 73, 171, 0.1);
-            border-color: #4fc3f7;
-        }
-        
-        .upload-area i {
-            font-size: 3rem;
-            color: #3949ab;
-            margin-bottom: 15px;
         }
         
         .notification {
@@ -474,172 +228,97 @@
             background: linear-gradient(to right, #f44336, #d32f2f);
         }
         
-        .premium-badge {
-            display: inline-block;
-            background: linear-gradient(to right, #ff9800, #ff5722);
+        .update-btn {
+            background: linear-gradient(to right, #3949ab, #7b1fa2);
             color: white;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            margin-left: 10px;
-            font-weight: bold;
-        }
-        
-        .locked-feature {
-            position: relative;
-            opacity: 0.7;
-        }
-        
-        .locked-feature::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 12px 25px;
             border-radius: 8px;
-            cursor: not-allowed;
-        }
-        
-        .locked-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: #ff9800;
-            z-index: 2;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .update-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(57, 73, 171, 0.4);
         }
         
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
-                margin-top: 80px;
-            }
-            
-            .login-panel {
-                position: static;
-                margin-bottom: 20px;
-                display: flex;
-                justify-content: flex-end;
             }
             
             h1 {
                 font-size: 1.8rem;
             }
             
-            .controls {
-                flex-direction: column;
-            }
-            
-            button {
-                justify-content: center;
+            .schemes-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Логин панель -->
-    <div class="login-panel" id="loginPanel">
-        <button class="login-btn" id="loginButton">
-            <i class="fas fa-sign-in-alt"></i> Войти
-        </button>
-    </div>
-    
-    <!-- Модальное окно логина -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-form">
-            <div class="close-modal" id="closeModal">&times;</div>
-            <h2><i class="fas fa-lock"></i> Вход в систему</h2>
-            <div class="input-group">
-                <label for="username">Логин:</label>
-                <input type="text" id="username" placeholder="Введите логин">
-            </div>
-            <div class="input-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" placeholder="Введите пароль">
-            </div>
-            <button class="login-submit-btn" id="loginSubmit">
-                <i class="fas fa-sign-in-alt"></i> Войти
-            </button>
-            <div class="login-error" id="loginError">
-                <i class="fas fa-exclamation-triangle"></i> Неверный логин или пароль
-            </div>
-            <div style="text-align: center; margin-top: 20px; color: #78909c; font-size: 0.9rem;">
-                <p>Доступ только для зарегистрированных пользователей</p>
-                <p style="margin-top: 10px;">Логин: <strong>Cobaken555</strong></p>
-                <p>Пароль: <strong>29112012@Daniil@291112</strong></p>
-            </div>
-        </div>
-    </div>
-    
     <div class="container">
         <header>
             <div class="logo">
                 <i class="fas fa-cube"></i>
                 <div>
                     <h1>Litematica Downloader</h1>
-                    <div class="subtitle">Скачивайте легкие схемы для Minecraft прямо в игру</div>
+                    <div class="subtitle">Скачивайте схемы для Minecraft из litematica.json</div>
                 </div>
             </div>
         </header>
         
-        <div class="controls">
-            <button class="load-btn" id="loadDefaultBtn">
-                <i class="fas fa-download"></i> Загрузить схемы из файла
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Как это работает:</h3>
+            <p>Сайт автоматически загружает схемы из файла <strong>litematica.json</strong>, который должен находиться рядом с index.html.</p>
+            <p>Формат файла должен быть такой:</p>
+            <div class="json-code">
+{
+  "schemes": [
+    {
+      "name": "Название схемы",
+      "version": "Версия Minecraft",
+      "path": "/путь/к/файлу.litematic"
+    }
+  ]
+}
+            </div>
+            <button class="update-btn" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> Обновить список схем
             </button>
-            <button class="upload-btn" id="editJsonBtn">
-                <i class="fas fa-edit"></i> Редактировать JSON
-            </button>
-        </div>
-        
-        <div class="upload-area" id="uploadArea">
-            <i class="fas fa-file-upload"></i>
-            <div>Перетащите файл litematica.json сюда или кликните для выбора</div>
-            <input type="file" id="fileInput" class="file-input" accept=".json">
         </div>
         
         <div id="schemesList" class="schemes-container">
             <div class="loading" id="loadingIndicator">
                 <i class="fas fa-spinner"></i>
-                <div>Загрузка схем...</div>
+                <div>Загрузка схем из litematica.json...</div>
             </div>
         </div>
         
-        <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> Как использовать:</h3>
-            <ul>
-                <li>Войдите в систему чтобы получить доступ ко всем функциям</li>
-                <li>Загрузите файл litematica.json со списком схем</li>
-                <li>Или отредактируйте JSON прямо на сайте</li>
-                <li>Нажмите "Скачать" для загрузки схемы в формате .litematic</li>
-                <li>Поместите скачанный файл в папку schematics вашего Minecraft</li>
-            </ul>
-        </div>
-        
-        <div class="json-editor" id="jsonEditor">
-            <h3><i class="fas fa-code"></i> Редактор JSON</h3>
-            <textarea id="jsonTextarea" placeholder='Войдите в систему чтобы редактировать JSON'></textarea>
-            <div class="editor-buttons">
-                <button class="cancel-btn" id="cancelEditBtn">
-                    <i class="fas fa-times"></i> Отмена
-                </button>
-                <button class="save-btn" id="saveJsonBtn">
-                    <i class="fas fa-save"></i> Сохранить и загрузить
-                </button>
-            </div>
+        <div class="json-info">
+            <h3><i class="fas fa-code"></i> О файле litematica.json</h3>
+            <p>Чтобы добавить свои схемы:</p>
+            <ol style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
+                <li>Создайте файл <strong>litematica.json</strong> рядом с index.html</li>
+                <li>Добавьте свои схемы в формате JSON как показано выше</li>
+                <li>Обновите страницу или нажмите кнопку "Обновить список схем"</li>
+            </ol>
+            <p style="margin-top: 15px; color: #4fc3f7;">
+                <i class="fas fa-lightbulb"></i> 
+                <strong>Примечание:</strong> Путь к файлу может быть абсолютным URL (https://...) или относительным путем
+            </p>
         </div>
         
         <footer>
             <p>Litematica Downloader © 2023 | Для Minecraft 1.16+ | Неофициальный сайт</p>
-            <p style="margin-top: 10px;">Только авторизованные пользователи могут редактировать схемы</p>
+            <p style="margin-top: 10px;">Просто разместите litematica.json рядом с этим файлом</p>
         </footer>
     </div>
     
@@ -649,68 +328,11 @@
     </div>
     
     <script>
-        // Данные для входа (фиксированные)
-        const CORRECT_USERNAME = "Cobaken555";
-        const CORRECT_PASSWORD = "29112012@Daniil@291112";
-        
-        // Исходный JSON с данными (по умолчанию)
-        const defaultJsonData = {
-            "schemes": [
-                {
-                    "name": "3x3 машина",
-                    "version": "1.21.1+",
-                    "path": "/litematica/schemas/3x3machine.litematic",
-                    "description": "Компактная 3x3 красстоун машина"
-                },
-                {
-                    "name": "Современный дом",
-                    "version": "1.20.4+",
-                    "path": "/litematica/schemas/modern_house.litematic",
-                    "description": "Стильный современный дом с панорамными окнами"
-                },
-                {
-                    "name": "Автоферма пшеницы",
-                    "version": "1.19.3+",
-                    "path": "/litematica/schemas/wheat_farm.litematic",
-                    "description": "Полностью автоматическая ферма пшеницы"
-                },
-                {
-                    "name": "Замок в небе",
-                    "version": "1.18.2+",
-                    "path": "/litematica/schemas/sky_castle.litematic",
-                    "description": "Красивый замок, парящий в небе"
-                }
-            ]
-        };
-        
-        // Переменные состояния
-        let isLoggedIn = false;
-        let currentJsonData = {...defaultJsonData};
-        
-        // Элементы DOM
-        const loginPanel = document.getElementById('loginPanel');
-        const loginButton = document.getElementById('loginButton');
-        const loginModal = document.getElementById('loginModal');
-        const closeModal = document.getElementById('closeModal');
-        const loginSubmit = document.getElementById('loginSubmit');
-        const loginError = document.getElementById('loginError');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        
-        const schemesList = document.getElementById('schemesList');
-        const jsonEditor = document.getElementById('jsonEditor');
-        const jsonTextarea = document.getElementById('jsonTextarea');
-        const loadDefaultBtn = document.getElementById('loadDefaultBtn');
-        const editJsonBtn = document.getElementById('editJsonBtn');
-        const saveJsonBtn = document.getElementById('saveJsonBtn');
-        const cancelEditBtn = document.getElementById('cancelEditBtn');
-        const fileInput = document.getElementById('fileInput');
-        const uploadArea = document.getElementById('uploadArea');
-        const notification = document.getElementById('notification');
-        const notificationText = document.getElementById('notificationText');
-        
         // Показать уведомление
         function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
             notificationText.textContent = message;
             notification.className = 'notification';
             
@@ -725,349 +347,183 @@
             }, 3000);
         }
         
-        // Обновить UI в зависимости от статуса логина
-        function updateUIForLoginStatus() {
-            if (isLoggedIn) {
-                // Показываем информацию о пользователе
-                loginPanel.innerHTML = `
-                    <div class="user-info">
-                        <i class="fas fa-user-circle"></i>
-                        <span>${CORRECT_USERNAME}</span>
-                        <button class="logout-btn" id="logoutButton">
-                            <i class="fas fa-sign-out-alt"></i> Выйти
-                        </button>
-                    </div>
-                `;
+        // Загрузить схемы из litematica.json
+        async function loadSchemesFromJson() {
+            const schemesList = document.getElementById('schemesList');
+            
+            try {
+                // Пытаемся загрузить litematica.json
+                const response = await fetch('litematica.json');
                 
-                // Добавляем обработчик для кнопки выхода
-                document.getElementById('logoutButton').addEventListener('click', logout);
-                
-                // Активируем все функции
-                editJsonBtn.disabled = false;
-                editJsonBtn.style.opacity = '1';
-                editJsonBtn.style.cursor = 'pointer';
-                jsonTextarea.disabled = false;
-                jsonTextarea.placeholder = 'Введите JSON в формате: { "schemes": [...] }';
-                
-                // Убираем блокировки
-                document.querySelectorAll('.locked-feature').forEach(el => {
-                    el.classList.remove('locked-feature');
-                    const lockedText = el.querySelector('.locked-text');
-                    if (lockedText) lockedText.remove();
-                });
-                
-                showNotification(`Добро пожаловать, ${CORRECT_USERNAME}!`);
-            } else {
-                // Показываем кнопку входа
-                loginPanel.innerHTML = `
-                    <button class="login-btn" id="loginButton">
-                        <i class="fas fa-sign-in-alt"></i> Войти
-                    </button>
-                `;
-                
-                // Добавляем обработчик для кнопки входа
-                document.getElementById('loginButton').addEventListener('click', openLoginModal);
-                
-                // Деактивируем некоторые функции
-                editJsonBtn.disabled = true;
-                editJsonBtn.style.opacity = '0.7';
-                editJsonBtn.style.cursor = 'not-allowed';
-                jsonTextarea.disabled = true;
-                jsonTextarea.placeholder = 'Войдите в систему чтобы редактировать JSON';
-                
-                // Блокируем премиум функции
-                const jsonEditorArea = document.querySelector('.json-editor textarea');
-                if (jsonEditorArea && !jsonEditorArea.classList.contains('locked-feature')) {
-                    jsonEditorArea.classList.add('locked-feature');
-                    jsonEditorArea.innerHTML += `<div class="locked-text"><i class="fas fa-lock"></i> Требуется вход в систему</div>`;
+                if (!response.ok) {
+                    throw new Error(`Ошибка загрузки: ${response.status}`);
                 }
                 
-                // Скрываем редактор JSON
-                jsonEditor.style.display = 'none';
-            }
-        }
-        
-        // Открыть модальное окно логина
-        function openLoginModal() {
-            loginModal.style.display = 'flex';
-            usernameInput.value = '';
-            passwordInput.value = '';
-            loginError.style.display = 'none';
-        }
-        
-        // Закрыть модальное окно логина
-        function closeLoginModal() {
-            loginModal.style.display = 'none';
-        }
-        
-        // Вход в систему
-        function login() {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
-            
-            if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-                isLoggedIn = true;
-                localStorage.setItem('litematicaLoggedIn', 'true');
-                closeLoginModal();
-                updateUIForLoginStatus();
-            } else {
-                loginError.style.display = 'block';
-                usernameInput.style.borderColor = '#f44336';
-                passwordInput.style.borderColor = '#f44336';
+                const jsonData = await response.json();
                 
-                setTimeout(() => {
-                    usernameInput.style.borderColor = '#3949ab';
-                    passwordInput.style.borderColor = '#3949ab';
-                }, 2000);
-            }
-        }
-        
-        // Выход из системы
-        function logout() {
-            isLoggedIn = false;
-            localStorage.removeItem('litematicaLoggedIn');
-            updateUIForLoginStatus();
-            showNotification('Вы вышли из системы');
-        }
-        
-        // Загрузить схемы из JSON
-        function loadSchemes(jsonData) {
-            // Скрываем индикатор загрузки
-            document.getElementById('loadingIndicator').style.display = 'none';
-            
-            // Очищаем список
-            schemesList.innerHTML = '';
-            
-            // Проверяем структуру JSON
-            if (!jsonData.schemes || !Array.isArray(jsonData.schemes)) {
+                // Скрываем индикатор загрузки
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                // Очищаем список
+                schemesList.innerHTML = '';
+                
+                // Проверяем структуру JSON
+                if (!jsonData.schemes || !Array.isArray(jsonData.schemes)) {
+                    schemesList.innerHTML = `
+                        <div class="no-schemes">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px; color: #ff9800;"></i>
+                            <div>Ошибка в структуре JSON. Убедитесь, что есть массив "schemes"</div>
+                        </div>
+                    `;
+                    showNotification('Ошибка в структуре litematica.json', true);
+                    return;
+                }
+                
+                // Если массив пустой
+                if (jsonData.schemes.length === 0) {
+                    schemesList.innerHTML = `
+                        <div class="no-schemes">
+                            <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 15px;"></i>
+                            <div>Список схем пуст. Добавьте схемы в litematica.json</div>
+                        </div>
+                    `;
+                    showNotification('litematica.json пуст. Добавьте схемы.');
+                    return;
+                }
+                
+                // Создаем карточки для каждой схемы
+                jsonData.schemes.forEach((scheme, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'scheme-card';
+                    
+                    // Создаем URL для скачивания
+                    // Если путь начинается с http, используем его как есть
+                    // Иначе добавляем базовый URL GitHub
+                    let downloadUrl = scheme.path;
+                    if (!scheme.path.startsWith('http')) {
+                        // Предполагаем, что это GitHub путь
+                        downloadUrl = `https://raw.githubusercontent.com${scheme.path.startsWith('/') ? '' : '/'}${scheme.path}`;
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="scheme-name">
+                            <i class="fas fa-cube"></i>
+                            ${scheme.name}
+                            <span class="scheme-version">${scheme.version || '1.16+'}</span>
+                        </div>
+                        <div class="scheme-path">
+                            <i class="fas fa-link"></i> ${downloadUrl}
+                        </div>
+                        <button class="download-btn" data-index="${index}" data-url="${downloadUrl}" data-name="${scheme.name}">
+                            <i class="fas fa-download"></i> Скачать схему
+                        </button>
+                    `;
+                    
+                    schemesList.appendChild(card);
+                });
+                
+                // Добавляем обработчики для кнопок скачивания
+                document.querySelectorAll('.download-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const schemeName = this.getAttribute('data-name');
+                        const downloadUrl = this.getAttribute('data-url');
+                        
+                        // Показываем уведомление о начале скачивания
+                        showNotification(`Скачивание "${schemeName}"...`);
+                        
+                        // Пытаемся скачать файл
+                        downloadFile(downloadUrl, `${schemeName.replace(/\s+/g, '_')}.litematic`);
+                    });
+                });
+                
+                showNotification(`Загружено ${jsonData.schemes.length} схем из litematica.json`);
+                
+            } catch (error) {
+                console.error('Ошибка загрузки litematica.json:', error);
+                
+                // Скрываем индикатор загрузки
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                // Показываем сообщение об ошибке
                 schemesList.innerHTML = `
                     <div class="no-schemes">
                         <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px; color: #ff9800;"></i>
-                        <div>Ошибка в структуре JSON. Убедитесь, что есть массив "schemes"</div>
+                        <div>Не удалось загрузить litematica.json</div>
+                        <p style="margin-top: 10px; color: #b0bec5; font-size: 0.9rem;">
+                            Убедитесь, что файл litematica.json находится рядом с index.html
+                        </p>
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+                            <p style="color: #ffcc80; margin-bottom: 10px;">Пример содержимого litematica.json:</p>
+                            <div style="font-family: monospace; font-size: 0.8rem; color: #b0bec5;">
+{
+  "schemes": [
+    {
+      "name": "Моя схема",
+      "version": "1.21.1",
+      "path": "/username/repo/main/scheme.litematic"
+    }
+  ]
+}
+                            </div>
+                        </div>
                     </div>
                 `;
-                return;
+                
+                showNotification('Ошибка загрузки litematica.json', true);
             }
-            
-            // Если массив пустой
-            if (jsonData.schemes.length === 0) {
-                schemesList.innerHTML = `
-                    <div class="no-schemes">
-                        <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 15px;"></i>
-                        <div>Список схем пуст. Добавьте схемы в JSON файл.</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Создаем карточки для каждой схемы
-            jsonData.schemes.forEach((scheme, index) => {
-                const card = document.createElement('div');
-                card.className = 'scheme-card';
-                
-                // Создаем URL для скачивания (имитация)
-                const downloadUrl = scheme.path.startsWith('http') ? scheme.path : 
-                                   `https://raw.githubusercontent.com${scheme.path}`;
-                
-                // Проверяем, премиум ли схема (только для примера)
-                const isPremium = scheme.name.includes("Замок") || scheme.name.includes("машина");
-                
-                card.innerHTML = `
-                    <div class="scheme-name">
-                        <i class="fas fa-cube"></i>
-                        ${scheme.name}
-                        ${isPremium && !isLoggedIn ? '<span class="premium-badge">PREMIUM</span>' : ''}
-                        <span class="scheme-version">${scheme.version || '1.16+'}</span>
-                    </div>
-                    <div class="scheme-path">
-                        <i class="fas fa-link"></i> ${downloadUrl}
-                    </div>
-                    ${scheme.description ? `<div style="color: #b0bec5; margin-bottom: 15px;">${scheme.description}</div>` : ''}
-                    <button class="download-btn" data-index="${index}" ${isPremium && !isLoggedIn ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
-                        <i class="fas fa-download"></i> 
-                        ${isPremium && !isLoggedIn ? 'Требуется вход' : 'Скачать схему'}
-                    </button>
-                `;
-                
-                schemesList.appendChild(card);
-            });
-            
-            // Добавляем обработчики для кнопок скачивания
-            document.querySelectorAll('.download-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (this.disabled) {
-                        showNotification('Войдите в систему для доступа к премиум схемам', true);
-                        openLoginModal();
-                        return;
-                    }
-                    
-                    const index = parseInt(this.getAttribute('data-index'));
-                    const scheme = jsonData.schemes[index];
-                    
-                    // Имитация скачивания
-                    showNotification(`Скачивание "${scheme.name}"...`);
-                    
-                    // Создаем временную ссылку для скачивания
-                    setTimeout(() => {
-                        const link = document.createElement('a');
-                        link.href = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(`Это файл схемы ${scheme.name}.litematic\nВ реальном приложении здесь будет бинарный файл.`);
-                        link.download = `${scheme.name.replace(/\s+/g, '_')}.litematic`;
-                        link.style.display = 'none';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        
-                        showNotification(`Схема "${scheme.name}" скачана!`);
-                    }, 500);
-                });
-            });
         }
         
-        // Загрузить схемы по умолчанию
-        function loadDefaultSchemes() {
-            loadSchemes(currentJsonData);
+        // Функция для скачивания файла
+        function downloadFile(url, filename) {
+            // Для GitHub raw URLs и других внешних файлов
+            // В реальном приложении здесь может быть более сложная логика
+            // с учетом CORS и других ограничений
+            
+            // Создаем временную ссылку для скачивания
+            const link = document.createElement('a');
+            
+            // Для внешних URL мы просто переходим по ссылке
+            // Браузер сам предложит скачать файл если он в правильном формате
+            link.href = url;
+            link.target = '_blank';
+            link.download = filename;
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Показываем уведомление об успешном скачивании
+            setTimeout(() => {
+                showNotification(`Схема "${filename}" скачана!`);
+            }, 1000);
         }
         
-        // Загрузить JSON из файла
-        function loadJsonFromFile(file) {
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                try {
-                    const jsonData = JSON.parse(e.target.result);
-                    currentJsonData = jsonData;
-                    loadSchemes(jsonData);
-                    showNotification(`Загружено ${jsonData.schemes ? jsonData.schemes.length : 0} схем из файла`);
-                } catch (error) {
-                    showNotification('Ошибка при чтении JSON файла', true);
-                    console.error('JSON parse error:', error);
-                    loadDefaultSchemes();
-                }
-            };
-            
-            reader.onerror = function() {
-                showNotification('Ошибка при чтении файла', true);
-                loadDefaultSchemes();
-            };
-            
-            reader.readAsText(file);
-        }
-        
-        // Инициализация
+        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем, был ли пользователь уже авторизован
-            if (localStorage.getItem('litematicaLoggedIn') === 'true') {
-                isLoggedIn = true;
-            }
+            // Загружаем схемы при загрузке страницы
+            loadSchemesFromJson();
             
-            // Обновляем UI
-            updateUIForLoginStatus();
-            
-            // Загружаем схемы по умолчанию при запуске
-            loadDefaultSchemes();
-            
-            // Обработчики для модального окна логина
-            loginSubmit.addEventListener('click', login);
-            closeModal.addEventListener('click', closeLoginModal);
-            loginModal.addEventListener('click', function(e) {
-                if (e.target === loginModal) {
-                    closeLoginModal();
-                }
-            });
-            
-            // Вход по нажатию Enter
-            usernameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') login();
-            });
-            
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') login();
-            });
-            
-            // Загрузка файла по клику
-            loadDefaultBtn.addEventListener('click', function() {
-                fileInput.click();
-            });
-            
-            // Загрузка файла через input
-            fileInput.addEventListener('change', function(e) {
-                if (e.target.files.length > 0) {
-                    loadJsonFromFile(e.target.files[0]);
-                }
-            });
-            
-            // Drag & drop для файла
-            uploadArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#4fc3f7';
-                uploadArea.style.backgroundColor = 'rgba(79, 195, 247, 0.1)';
-            });
-            
-            uploadArea.addEventListener('dragleave', function() {
-                uploadArea.style.borderColor = '#3949ab';
-                uploadArea.style.backgroundColor = 'transparent';
-            });
-            
-            uploadArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#3949ab';
-                uploadArea.style.backgroundColor = 'transparent';
+            // Добавляем обработчик для кнопки обновления
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                // Показываем индикатор загрузки
+                document.getElementById('loadingIndicator').style.display = 'block';
+                document.getElementById('schemesList').innerHTML = `
+                    <div class="loading" id="loadingIndicator">
+                        <i class="fas fa-spinner"></i>
+                        <div>Обновление списка схем...</div>
+                    </div>
+                `;
                 
-                if (e.dataTransfer.files.length > 0) {
-                    const file = e.dataTransfer.files[0];
-                    
-                    // Проверяем расширение файла
-                    if (file.name.toLowerCase().endsWith('.json')) {
-                        loadJsonFromFile(file);
-                    } else {
-                        showNotification('Пожалуйста, загрузите файл в формате JSON', true);
-                    }
-                }
+                // Загружаем схемы заново
+                loadSchemesFromJson();
             });
             
-            // Клик по области загрузки
-            uploadArea.addEventListener('click', function() {
-                fileInput.click();
-            });
-            
-            // Редактирование JSON
-            editJsonBtn.addEventListener('click', function() {
-                if (!isLoggedIn) {
-                    showNotification('Войдите в систему для редактирования JSON', true);
-                    openLoginModal();
-                    return;
-                }
-                
-                // Заполняем textarea текущими данными
-                jsonTextarea.value = JSON.stringify(currentJsonData, null, 2);
-                jsonEditor.style.display = 'block';
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-            
-            // Сохранение JSON
-            saveJsonBtn.addEventListener('click', function() {
-                if (!isLoggedIn) {
-                    showNotification('Войдите в систему для сохранения JSON', true);
-                    openLoginModal();
-                    return;
-                }
-                
-                try {
-                    const jsonData = JSON.parse(jsonTextarea.value);
-                    currentJsonData = jsonData;
-                    loadSchemes(jsonData);
-                    jsonEditor.style.display = 'none';
-                    showNotification('JSON успешно сохранен и загружен');
-                } catch (error) {
-                    showNotification('Ошибка в JSON формате', true);
-                    console.error('JSON parse error:', error);
-                }
-            });
-            
-            // Отмена редактирования
-            cancelEditBtn.addEventListener('click', function() {
-                jsonEditor.style.display = 'none';
-            });
+            // Автоматическое обновление каждые 5 минут
+            setInterval(() => {
+                console.log('Автообновление списка схем...');
+                loadSchemesFromJson();
+            }, 5 * 60 * 1000);
         });
     </script>
 </body>
