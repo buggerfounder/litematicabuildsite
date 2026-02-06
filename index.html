@@ -3,132 +3,555 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Litematica Downloader - Легкие схемы для Minecraft</title>
+    <title>Litematica Universe - Сообщество схем Minecraft</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        }
+        
+        :root {
+            --primary: #00D4FF;
+            --secondary: #9D4EDD;
+            --accent: #FF6B6B;
+            --success: #00E676;
+            --warning: #FF9800;
+            --dark: #0A0A1A;
+            --darker: #050510;
+            --light: #E0F7FA;
+            --card-bg: rgba(20, 20, 40, 0.8);
+            --user-card: rgba(30, 30, 60, 0.9);
+            --glow: 0 0 20px rgba(0, 212, 255, 0.4);
+            --glow-strong: 0 0 30px rgba(0, 212, 255, 0.7);
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1A0033 100%);
+            color: var(--light);
             min-height: 100vh;
+            font-family: 'Exo 2', sans-serif;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            z-index: -1;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: rgba(30, 30, 46, 0.9);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid #3949ab;
+            position: relative;
+            z-index: 2;
         }
         
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #3949ab;
+        /* Анимированный фон */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
         
-        .logo {
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100px) translateX(var(--move-x));
+                opacity: 0;
+            }
+        }
+        
+        /* Хедер с профилем */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 25px 40px;
+            background: rgba(10, 10, 26, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: var(--glow);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-section {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 20px;
         }
         
-        .logo i {
-            font-size: 2.5rem;
-            color: #4fc3f7;
+        .logo-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            text-shadow: var(--glow-strong);
+            animation: pulse 2s infinite alternate;
         }
         
-        h1 {
-            font-size: 2.2rem;
-            background: linear-gradient(to right, #4fc3f7, #7b1fa2);
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: var(--glow); }
+            100% { transform: scale(1.1); text-shadow: var(--glow-strong); }
+        }
+        
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
         }
         
-        .subtitle {
-            color: #b0bec5;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+        .logo-subtitle {
+            font-size: 1rem;
+            color: #B3E5FC;
+            font-weight: 300;
         }
         
-        .info-box {
-            background: rgba(25, 25, 35, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 5px solid #00c853;
-        }
-        
-        .info-box h3 {
-            color: #00c853;
-            margin-bottom: 10px;
+        /* Профиль пользователя */
+        .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-        
-        .schemes-container {
-            display: grid;
             gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .scheme-card {
-            background: rgba(40, 40, 60, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 5px solid #3949ab;
+            background: rgba(20, 20, 40, 0.8);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
             transition: all 0.3s;
+            cursor: pointer;
             position: relative;
         }
         
+        .user-profile:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+            border-color: var(--primary);
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .user-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .user-role {
+            font-size: 0.9rem;
+            color: #81D4FA;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 3px 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .user-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        
+        .user-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #B3E5FC;
+        }
+        
+        /* Выпадающее меню профиля */
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: var(--user-card);
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: var(--glow-strong);
+            display: none;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+        
+        .profile-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            margin-bottom: 15px;
+        }
+        
+        .dropdown-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .dropdown-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: #B3E5FC;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            font-size: 1.1rem;
+        }
+        
+        /* Система рейтинга */
+        .rating-system {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(20, 20, 40, 0.6);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .stars {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .star {
+            color: #FFC107;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .star:hover {
+            transform: scale(1.2);
+            color: #FFD700;
+        }
+        
+        .rating-value {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: #FFC107;
+            margin-left: 5px;
+        }
+        
+        .rating-count {
+            font-size: 0.9rem;
+            color: #B3E5FC;
+            margin-left: 10px;
+        }
+        
+        /* Поисковая панель */
+        .search-section {
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: var(--glow);
+            backdrop-filter: blur(10px);
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 18px 20px 18px 60px;
+            background: rgba(5, 5, 16, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1.1rem;
+            font-family: 'Exo 2', sans-serif;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        
+        .search-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #B3E5FC;
+            font-size: 0.95rem;
+        }
+        
+        .quick-filters {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tag {
+            padding: 8px 18px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .filter-tag:hover {
+            background: rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .filter-tag.active {
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        /* Табы */
+        .tabs-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background: rgba(20, 20, 40, 0.6);
+            padding: 10px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #B3E5FC;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .tab.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Карточки схем */
+        .schemes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .scheme-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .scheme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
         .scheme-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border-left-color: #4fc3f7;
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--glow-strong);
+            border-color: var(--primary);
+        }
+        
+        .card-header {
+            padding: 25px 25px 15px;
+            position: relative;
         }
         
         .scheme-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 12px;
-            border-radius: 15px;
+            top: 20px;
+            right: 20px;
+            padding: 6px 15px;
+            border-radius: 12px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
         }
         
         .badge-available {
-            background: linear-gradient(to right, #00c853, #64dd17);
+            background: linear-gradient(45deg, var(--success), #00C853);
             color: white;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
         }
         
-        .badge-deleted-source {
-            background: linear-gradient(to right, #ff9800, #ff5722);
+        .badge-archived {
+            background: linear-gradient(45deg, var(--warning), #FF5722);
             color: white;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
         }
         
         .badge-deleted {
-            background: linear-gradient(to right, #f44336, #d32f2f);
+            background: linear-gradient(45deg, var(--accent), #D32F2F);
             color: white;
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
         }
         
         .scheme-name {
-            font-size: 1.4rem;
-            color: #4fc3f7;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -137,98 +560,681 @@
         
         .scheme-version {
             display: inline-block;
-            background: rgba(121, 85, 72, 0.3);
-            color: #ffcc80;
-            padding: 3px 10px;
+            background: rgba(157, 78, 221, 0.2);
+            color: #E1BEE7;
+            padding: 4px 12px;
             border-radius: 15px;
             font-size: 0.8rem;
-            margin-left: 10px;
+            font-weight: 500;
         }
         
-        .scheme-details {
+        .scheme-description {
+            color: #B3E5FC;
+            font-size: 0.95rem;
+            line-height: 1.5;
             margin-bottom: 15px;
-            color: #b0bec5;
-            font-size: 0.9rem;
         }
         
-        .scheme-detail {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+        .card-body {
+            padding: 0 25px 20px;
         }
         
-        .scheme-detail i {
-            color: #4fc3f7;
-            width: 20px;
+        .scheme-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .warning-note {
-            background: rgba(255, 152, 0, 0.1);
-            border: 1px solid #ff9800;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px 0;
-            color: #ffcc80;
-            font-size: 0.9rem;
+        .meta-item {
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .scheme-path {
-            color: #b0bec5;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            word-break: break-all;
+        .meta-icon {
+            color: var(--primary);
+            font-size: 1.1rem;
+            width: 25px;
         }
         
-        .download-btn {
-            background: linear-gradient(to right, #00c853, #64dd17);
-            color: white;
+        .meta-label {
+            font-size: 0.85rem;
+            color: #81D4FA;
+        }
+        
+        .meta-value {
+            font-size: 0.9rem;
+            color: var(--light);
+            font-weight: 500;
+        }
+        
+        .scheme-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            padding: 5px 12px;
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #E1BEE7;
+        }
+        
+        .tag.difficulty {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+            color: #B3E5FC;
+        }
+        
+        .card-footer {
+            padding: 20px 25px;
+            background: rgba(5, 5, 16, 0.6);
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--light);
+            font-family: 'Exo 2', sans-serif;
             cursor: pointer;
-            font-size: 0.95rem;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-            width: 100%;
             justify-content: center;
+            gap: 8px;
         }
         
-        .download-btn:hover {
-            background: linear-gradient(to right, #00e676, #76ff03);
-            transform: scale(1.05);
+        .action-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
         }
         
-        .download-btn:disabled {
-            background: #757575;
-            cursor: not-allowed;
-            transform: none;
+        .action-btn.primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
         }
         
-        .no-schemes {
-            text-align: center;
-            padding: 40px 20px;
-            color: #b0bec5;
+        .action-btn.primary:hover {
+            box-shadow: var(--glow);
+        }
+        
+        /* Комментарии */
+        .comments-section {
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .comment-form {
+            margin-bottom: 25px;
+        }
+        
+        .comment-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(5, 5, 16, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            color: var(--light);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 15px;
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .comment {
+            background: rgba(5, 5, 16, 0.6);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
             font-size: 1.1rem;
         }
         
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .comment-date {
+            font-size: 0.85rem;
+            color: #81D4FA;
+            margin-left: auto;
+        }
+        
+        .comment-text {
+            color: #B3E5FC;
+            line-height: 1.5;
+        }
+        
+        /* Топ пользователей */
+        .top-users {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .user-card {
+            background: var(--user-card);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .user-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .user-rank {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .user-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .user-card-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-card-info {
+            flex: 1;
+        }
+        
+        .user-card-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .user-card-role {
+            font-size: 0.9rem;
+            color: #81D4FA;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 3px 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .user-card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .user-card-stat {
+            text-align: center;
+        }
+        
+        .user-card-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .user-card-stat-label {
+            font-size: 0.85rem;
+            color: #B3E5FC;
+        }
+        
+        /* Коллекции */
+        .collections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .collection-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .collection-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .collection-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .collection-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .collection-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .collection-description {
+            color: #B3E5FC;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .collection-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #81D4FA;
+            font-size: 0.9rem;
+        }
+        
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            background: var(--user-card);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: var(--glow-strong);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #B3E5FC;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(5, 5, 16, 0.8);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            color: var(--light);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--glow);
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        /* Футер */
+        .main-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(10, 10, 26, 0.6);
+            border-radius: 20px;
+            border-top: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        .footer-text {
+            color: #81D4FA;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+        
+        /* Анимации */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .scheme-card, .user-card, .collection-card {
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .scheme-card:nth-child(1) { animation-delay: 0.1s; }
+        .scheme-card:nth-child(2) { animation-delay: 0.2s; }
+        .scheme-card:nth-child(3) { animation-delay: 0.3s; }
+        .scheme-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Респонсив */
+        @media (max-width: 1200px) {
+            .schemes-container {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .main-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logo-text {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .schemes-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-text {
+                font-size: 1.8rem;
+            }
+            
+            .search-section {
+                padding: 20px;
+            }
+            
+            .quick-filters {
+                justify-content: center;
+            }
+            
+            .tabs-container {
+                flex-direction: column;
+            }
+            
+            .scheme-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-users {
+                grid-template-columns: 1fr;
+            }
+            
+            .collections {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .user-profile {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .user-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .profile-dropdown {
+                width: calc(100vw - 40px);
+                right: -10px;
+            }
+        }
+        
+        /* Скроллбар */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 10, 26, 0.8);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--secondary), var(--primary));
+        }
+        
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: var(--glow-strong);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 500;
+        }
+        
+        .notification.error {
+            background: linear-gradient(45deg, var(--accent), #D32F2F);
+        }
+        
+        .notification.success {
+            background: linear-gradient(45deg, var(--success), #00C853);
+        }
+        
+        .notification.warning {
+            background: linear-gradient(45deg, var(--warning), #FF5722);
+        }
+        
+        /* Загрузка */
         .loading {
             text-align: center;
-            padding: 40px 20px;
-            color: #4fc3f7;
+            padding: 60px 20px;
+            color: var(--primary);
+            font-size: 1.2rem;
         }
         
         .loading i {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 3rem;
+            margin-bottom: 20px;
             animation: spin 1.5s linear infinite;
         }
         
@@ -236,234 +1242,994 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .json-info {
-            background: rgba(20, 20, 30, 0.9);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 30px;
-            border: 1px solid #3949ab;
-        }
-        
-        .json-info h3 {
-            color: #ff9800;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .json-code {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #3949ab;
-            border-radius: 8px;
-            padding: 15px;
-            color: #e0e0e0;
-            font-family: monospace;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            overflow-x: auto;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #78909c;
-            font-size: 0.9rem;
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(to right, #00c853, #64dd17);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            display: none;
-            align-items: center;
-            gap: 10px;
-            z-index: 100;
-        }
-        
-        .error {
-            background: linear-gradient(to right, #f44336, #d32f2f);
-        }
-        
-        .update-btn {
-            background: linear-gradient(to right, #3949ab, #7b1fa2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .update-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(57, 73, 171, 0.4);
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: #b0bec5;
-        }
-        
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4fc3f7;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .schemes-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-cube"></i>
-                <div>
-                    <h1>Litematica Downloader</h1>
-                    <div class="subtitle">Скачивайте схемы для Minecraft из litematicabuildsite</div>
-                </div>
-            </div>
-        </header>
-        
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Обновить схему</h3>
-            <p>Сайт автоматически загружает схемы из файла <strong>litematica.json</strong> и вам как только автор обновит нажать на обновить список схем!</p>
-            <button class="update-btn" id="refreshBtn">
-                <i class="fas fa-sync-alt"></i> Обновить список схем
+    <!-- Анимированные частицы -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Модальные окна -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">
+                <i class="fas fa-times"></i>
             </button>
-        </div>
-        
-        <div id="schemesList" class="schemes-container">
-            <div class="loading" id="loadingIndicator">
-                <i class="fas fa-spinner"></i>
-                <div>Загрузка схем из litematica.json...</div>
+            <h2 class="modal-title">
+                <i class="fas fa-sign-in-alt"></i> Вход в систему
+            </h2>
+            <div class="form-group">
+                <label class="form-label">Имя пользователя</label>
+                <input type="text" class="form-input" id="loginUsername" placeholder="Введите ваш никнейм">
+            </div>
+            <button class="btn btn-block" onclick="login()">
+                <i class="fas fa-play"></i> Войти как гость
+            </button>
+            <div style="text-align: center; margin-top: 20px; color: #81D4FA; font-size: 0.9rem;">
+                Регистрация не требуется! Просто введите имя
             </div>
         </div>
-        
-        <div id="statsContainer" class="stats" style="display: none;">
-            <div class="stat-item">
-                <div class="stat-number" id="totalSchemes">0</div>
-                <div>Всего схем</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="availableSchemes">0</div>
-                <div>Доступно</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="deletedSourceSchemes">0</div>
-                <div>Удалено на источнике</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="deletedSchemes">0</div>
-                <div>Полностью удалено</div>
-            </div>
-        </div>
-        
-        <div class="json-info">
-            <h3><i class="fas fa-code"></i> О файле litematica.json</h3>
-            <p>Чтобы добавить свои схемы вам надо:</p>
-            <ol style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
-                <li>Создайте файл <strong>litematica.json</strong> на рабочем столе</li>
-                <li>Напишите в файле <strong>litematica.json</strong> этот код заменяя на свое:</li>
-            </ol>
-            <div class="json-code">
-{
-  "schemes": [
-    {
-      "name": "Название схемы",
-      "version": "Версия Minecraft",
-      "path": "https://сайт/путь/к/файлу.litematic",
-      "description": "Описание схемы",
-      "creator": "Создатель схемы",
-      "finder": "Кто нашел схему",
-      "source": "Сайт откуда скачана",
-      "deleted_on_the_source": false,
-      "deleted": false
-    }
-  ]
-}
-            </div>
-            <div class="warning-note">
-                <i class="fas fa-exclamation-triangle"></i>
-                <div>
-                    <strong>Важно:</strong> 
-                    <strong>deleted_on_the_source: true</strong> - схема удалена на оригинальном сайте, но доступна здесь<br>
-                    <strong>deleted: true</strong> - схема полностью удалена и недоступна для скачивания
-                </div>
-            </div>
-            <ol start="3" style="padding-left: 20px; margin-top: 10px; color: #b0bec5;">
-                <li>Потом напишите автору в дискорд cobaka1967 предварительно кинув заявки в друзья! И ожидайте пока он рассмотрит</li>
-            </ol>
-        </div>
-        
-        <footer>
-            <p>Litematica Downloader © 2026 | Для Minecraft 1.16+ | Неофициальный сайт</p>
-            <p style="margin-top: 10px;">Сайт загружает схемы из файла litematica.json</p>
-        </footer>
     </div>
     
+    <div class="modal" id="ratingModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('ratingModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">
+                <i class="fas fa-star"></i> Оцените схему
+            </h2>
+            <div class="form-group">
+                <label class="form-label">Ваша оценка</label>
+                <div class="rating-system" style="justify-content: center;">
+                    <div class="stars" id="modalStars">
+                        <i class="fas fa-star star" data-value="1"></i>
+                        <i class="fas fa-star star" data-value="2"></i>
+                        <i class="fas fa-star star" data-value="3"></i>
+                        <i class="fas fa-star star" data-value="4"></i>
+                        <i class="fas fa-star star" data-value="5"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Комментарий (необязательно)</label>
+                <textarea class="form-input" id="ratingComment" placeholder="Ваш отзыв о схеме..." rows="3"></textarea>
+            </div>
+            <button class="btn btn-block" onclick="submitRating()">
+                <i class="fas fa-check"></i> Отправить оценку
+            </button>
+        </div>
+    </div>
+    
+    <!-- Уведомления -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationText">Уведомление</span>
     </div>
     
+    <div class="container">
+        <!-- Главный хедер -->
+        <header class="main-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div>
+                    <div class="logo-text">LITEMATICA UNIVERSE</div>
+                    <div class="logo-subtitle">Сообщество строителей Minecraft</div>
+                </div>
+            </div>
+            
+            <!-- Профиль пользователя -->
+            <div class="user-profile" id="userProfile" onclick="toggleDropdown()">
+                <div class="user-avatar" id="userAvatar">G</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Гость</div>
+                    <div class="user-role" id="userRole">Посетитель</div>
+                    <div class="user-stats">
+                        <div class="user-stat">
+                            <div class="stat-value" id="userDownloads">0</div>
+                            <div class="stat-label">Скачиваний</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="stat-value" id="userRatings">0</div>
+                            <div class="stat-label">Оценок</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="stat-value" id="userLevel">1</div>
+                            <div class="stat-label">Уровень</div>
+                        </div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+                
+                <!-- Выпадающее меню -->
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar" id="dropdownAvatar">G</div>
+                        <div>
+                            <div class="user-name" id="dropdownName">Гость</div>
+                            <div class="user-role" id="dropdownRole">Посетитель</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" onclick="openModal('loginModal')">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Войти / Сменить имя</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="viewMyCollection()">
+                            <i class="fas fa-bookmark"></i>
+                            <span>Мои сохраненные</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="viewMyRatings()">
+                            <i class="fas fa-star"></i>
+                            <span>Мои оценки</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="viewAchievements()">
+                            <i class="fas fa-trophy"></i>
+                            <span>Достижения</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="viewStats()">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Статистика</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="openModal('ratingModal')">
+                            <i class="fas fa-edit"></i>
+                            <span>Предложить схему</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="resetGuest()">
+                            <i class="fas fa-redo"></i>
+                            <span>Сбросить профиль</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Табы -->
+        <div class="tabs-container">
+            <button class="tab active" data-tab="schemes">
+                <i class="fas fa-cube"></i> Все схемы
+            </button>
+            <button class="tab" data-tab="collections">
+                <i class="fas fa-bookmark"></i> Коллекции
+            </button>
+            <button class="tab" data-tab="top">
+                <i class="fas fa-trophy"></i> Топ пользователей
+            </button>
+            <button class="tab" data-tab="community">
+                <i class="fas fa-users"></i> Сообщество
+            </button>
+        </div>
+        
+        <!-- Вкладка "Все схемы" -->
+        <div class="tab-content active" id="schemesTab">
+            <section class="search-section">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Поиск схем по названию, автору, тегам...">
+                </div>
+                <div class="search-stats">
+                    <div id="searchResults">Найдено: <span id="foundCount">0</span> схем</div>
+                    <div id="searchTime">Поиск: <span id="searchTimeValue">0.00</span> сек</div>
+                </div>
+                <div class="quick-filters">
+                    <div class="filter-tag active" data-filter="all">Все схемы</div>
+                    <div class="filter-tag" data-filter="available">Доступные</div>
+                    <div class="filter-tag" data-filter="archived">Архивные</div>
+                    <div class="filter-tag" data-filter="survival">Выживание</div>
+                    <div class="filter-tag" data-filter="easy">Легкие</div>
+                    <div class="filter-tag" data-filter="redstone">Редстоун</div>
+                    <div class="filter-tag" data-filter="my">Мои сохраненные</div>
+                </div>
+            </section>
+            
+            <div class="schemes-container" id="schemesList">
+                <div class="loading" id="loadingIndicator">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <div>Загрузка схем из litematica.json...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вкладка "Коллекции" -->
+        <div class="tab-content" id="collectionsTab">
+            <div class="collections">
+                <div class="collection-card">
+                    <div class="collection-header">
+                        <div class="collection-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div>
+                            <div class="collection-title">Лучшие дома</div>
+                        </div>
+                    </div>
+                    <div class="collection-description">
+                        Коллекция лучших жилых домов разных стилей - от маленьких домиков до огромных особняков
+                    </div>
+                    <div class="collection-stats">
+                        <span><i class="fas fa-cube"></i> 24 схемы</span>
+                        <span><i class="fas fa-download"></i> 1.2K скачиваний</span>
+                    </div>
+                </div>
+                
+                <div class="collection-card">
+                    <div class="collection-header">
+                        <div class="collection-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div>
+                            <div class="collection-title">Фермы и механизмы</div>
+                        </div>
+                    </div>
+                    <div class="collection-description">
+                        Автоматические фермы, редстоун механизмы и полезные постройки для выживания
+                    </div>
+                    <div class="collection-stats">
+                        <span><i class="fas fa-cube"></i> 18 схем</span>
+                        <span><i class="fas fa-download"></i> 2.4K скачиваний</span>
+                    </div>
+                </div>
+                
+                <div class="collection-card">
+                    <div class="collection-header">
+                        <div class="collection-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div>
+                            <div class="collection-title">Замки и крепости</div>
+                        </div>
+                    </div>
+                    <div class="collection-description">
+                        Величественные замки, крепости и средневековые постройки для вашего мира
+                    </div>
+                    <div class="collection-stats">
+                        <span><i class="fas fa-cube"></i> 15 схем</span>
+                        <span><i class="fas fa-download"></i> 890 скачиваний</span>
+                    </div>
+                </div>
+                
+                <div class="collection-card" onclick="createCollection()">
+                    <div class="collection-header">
+                        <div class="collection-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div>
+                            <div class="collection-title">Создать коллекцию</div>
+                        </div>
+                    </div>
+                    <div class="collection-description">
+                        Создайте свою собственную коллекцию схем и делитесь ей с сообществом
+                    </div>
+                    <div class="collection-stats">
+                        <span><i class="fas fa-users"></i> Для всех</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вкладка "Топ пользователей" -->
+        <div class="tab-content" id="topTab">
+            <div class="top-users" id="topUsersList">
+                <!-- Топ пользователи будут загружены динамически -->
+            </div>
+        </div>
+        
+        <!-- Вкладка "Сообщество" -->
+        <div class="tab-content" id="communityTab">
+            <div class="comments-section">
+                <h2 style="color: var(--primary); margin-bottom: 20px;">
+                    <i class="fas fa-comments"></i> Последние обсуждения
+                </h2>
+                
+                <div class="comment-form">
+                    <textarea class="comment-input" id="newComment" placeholder="Напишите ваш комментарий..."></textarea>
+                    <button class="btn" onclick="postComment()">
+                        <i class="fas fa-paper-plane"></i> Опубликовать
+                    </button>
+                </div>
+                
+                <div id="commentsList">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-avatar">C</div>
+                            <div class="comment-author">Cobaken555</div>
+                            <div class="comment-date">Сегодня 14:30</div>
+                        </div>
+                        <div class="comment-text">
+                            Отличный сайт! Наконец-то нашел все нужные схемы в одном месте. Особенно понравилась коллекция редстоун механизмов.
+                        </div>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-avatar">B</div>
+                            <div class="comment-author">BuilderPro</div>
+                            <div class="comment-date">Вчера 22:15</div>
+                        </div>
+                        <div class="comment-text">
+                            Кто-нибудь знает хорошие схемы для автоматической фермы рыбы? Хочу добавить в свою коллекцию.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Футер -->
+        <footer class="main-footer">
+            <div class="footer-text">
+                Litematica Universe © 2026 | Сообщество строителей Minecraft
+            </div>
+            <div class="footer-text">
+                Все схемы предоставлены сообществом. Для добавления своих схем пишите в Discord: cobaka1967
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-reddit"></i></a>
+            </div>
+        </footer>
+    </div>
+    
     <script>
-        // Показать уведомление
-        function showNotification(message, isError = false) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
+        // Глобальные переменные
+        let allSchemes = [];
+        let filteredSchemes = [];
+        let currentFilter = 'all';
+        let searchTimeout = null;
+        let currentUser = null;
+        let userData = {};
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Создаем частицы
+            createParticles();
             
-            notificationText.textContent = message;
-            notification.className = 'notification';
+            // Инициализируем пользователя
+            initUser();
             
-            if (isError) {
-                notification.classList.add('error');
+            // Настраиваем UI
+            setupUI();
+            
+            // Загружаем схемы
+            await loadSchemes();
+            
+            // Загружаем топ пользователей
+            loadTopUsers();
+            
+            // Автообновление
+            setInterval(() => {
+                loadSchemes(true);
+            }, 120000);
+        });
+        
+        // Инициализировать пользователя
+        function initUser() {
+            // Пытаемся загрузить данные пользователя из localStorage
+            const savedUser = localStorage.getItem('litematica_user');
+            
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+            } else {
+                // Создаем гостевого пользователя
+                currentUser = {
+                    id: 'guest_' + Date.now(),
+                    name: 'Гость',
+                    avatar: 'G',
+                    role: 'Посетитель',
+                    level: 1,
+                    downloads: 0,
+                    ratings: 0,
+                    savedSchemes: [],
+                    myRatings: {},
+                    achievements: []
+                };
+                saveUserData();
             }
+            
+            updateUserUI();
+        }
+        
+        // Сохранить данные пользователя
+        function saveUserData() {
+            localStorage.setItem('litematica_user', JSON.stringify(currentUser));
+        }
+        
+        // Обновить UI пользователя
+        function updateUserUI() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userAvatar').textContent = currentUser.avatar;
+            document.getElementById('dropdownName').textContent = currentUser.name;
+            document.getElementById('dropdownAvatar').textContent = currentUser.avatar;
+            document.getElementById('userRole').textContent = currentUser.role;
+            document.getElementById('dropdownRole').textContent = currentUser.role;
+            document.getElementById('userLevel').textContent = currentUser.level;
+            document.getElementById('userDownloads').textContent = currentUser.downloads;
+            document.getElementById('userRatings').textContent = Object.keys(currentUser.myRatings || {}).length;
+            
+            // Обновляем роль в зависимости от уровня
+            if (currentUser.level >= 10) {
+                currentUser.role = 'Мастер';
+            } else if (currentUser.level >= 5) {
+                currentUser.role = 'Опытный';
+            } else if (currentUser.level >= 2) {
+                currentUser.role = 'Новичок';
+            }
+            
+            saveUserData();
+        }
+        
+        // Войти/сменить имя
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            
+            if (username) {
+                currentUser.name = username;
+                currentUser.avatar = username.charAt(0).toUpperCase();
+                closeModal('loginModal');
+                updateUserUI();
+                showNotification(`Добро пожаловать, ${username}!`, 'success');
+                
+                // Даем достижение за вход
+                giveAchievement('Первый вход', 'fas fa-sign-in-alt');
+            } else {
+                showNotification('Введите имя пользователя', 'error');
+            }
+        }
+        
+        // Открыть модальное окно
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        // Закрыть модальное окно
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Переключить выпадающее меню
+        function toggleDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        // Создать частицы
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 2 + 1;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 10 + 10;
+                const moveX = (Math.random() - 0.5) * 200;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.setProperty('--move-x', `${moveX}px`);
+                
+                const colors = ['#00D4FF', '#9D4EDD', '#FF6B6B', '#00E676'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Настроить UI
+        function setupUI() {
+            // Табы
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.tab + 'Tab').classList.add('active');
+                });
+            });
+            
+            // Поиск
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    applyFilters();
+                }, 300);
+            });
+            
+            // Фильтры
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+            
+            // Закрыть меню при клике вне его
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.user-profile')) {
+                    document.getElementById('profileDropdown').classList.remove('show');
+                }
+            });
+        }
+        
+        // Загрузить схемы
+        async function loadSchemes(silent = false) {
+            try {
+                const response = await fetch('litematica.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                allSchemes = data.schemes || [];
+                
+                if (!silent) {
+                    showNotification(`Загружено ${allSchemes.length} схем`, 'success');
+                }
+                
+                applyFilters();
+                
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                showErrorState();
+                
+                if (!silent) {
+                    showNotification('Ошибка загрузки схем', 'error');
+                }
+            }
+        }
+        
+        // Применить фильтры
+        function applyFilters() {
+            const startTime = performance.now();
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            filteredSchemes = allSchemes.filter(scheme => {
+                // Поиск по тексту
+                if (searchQuery) {
+                    const searchIn = [
+                        scheme.name,
+                        scheme.description,
+                        scheme.creator,
+                        scheme.finder,
+                        scheme.source,
+                        scheme.difficulty,
+                        scheme.game_mode,
+                        ...(scheme.materials || []),
+                        ...(scheme.features || [])
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchIn.includes(searchQuery)) {
+                        return false;
+                    }
+                }
+                
+                // Фильтр "Мои сохраненные"
+                if (currentFilter === 'my') {
+                    return currentUser.savedSchemes && currentUser.savedSchemes.includes(scheme.name);
+                }
+                
+                // Быстрые фильтры
+                switch (currentFilter) {
+                    case 'available':
+                        return !scheme.deleted && !scheme.deleted_on_the_source;
+                    case 'archived':
+                        return scheme.deleted_on_the_source && !scheme.deleted;
+                    case 'survival':
+                        return scheme.game_mode && scheme.game_mode.toLowerCase().includes('выживание');
+                    case 'easy':
+                        return scheme.difficulty && scheme.difficulty.toLowerCase().includes('легк');
+                    case 'redstone':
+                        return scheme.redstone && scheme.redstone.toLowerCase().includes('редст');
+                    default:
+                        return true;
+                }
+            });
+            
+            // Обновляем время поиска
+            const searchTime = (performance.now() - startTime).toFixed(2);
+            document.getElementById('searchTimeValue').textContent = searchTime;
+            document.getElementById('foundCount').textContent = filteredSchemes.length;
+            
+            renderSchemes();
+        }
+        
+        // Отобразить схемы
+        function renderSchemes() {
+            const schemesList = document.getElementById('schemesList');
+            
+            if (filteredSchemes.length === 0) {
+                schemesList.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                        <i class="fas fa-search" style="font-size: 4rem; color: var(--primary); opacity: 0.5; margin-bottom: 20px;"></i>
+                        <div style="font-size: 1.3rem; color: #81D4FA; margin-bottom: 15px;">
+                            ${currentFilter === 'my' ? 'У вас нет сохраненных схем' : 'Схемы не найдены'}
+                        </div>
+                        <div style="color: #B3E5FC; font-size: 0.95rem;">
+                            ${currentFilter === 'my' ? 
+                              'Сохраняйте понравившиеся схемы, нажав на звездочку' : 
+                              'Попробуйте изменить поисковый запрос или сбросить фильтры'}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            schemesList.innerHTML = '';
+            
+            filteredSchemes.forEach((scheme, index) => {
+                const card = createSchemeCard(scheme, index);
+                schemesList.appendChild(card);
+            });
+        }
+        
+        // Создать карточку схемы
+        function createSchemeCard(scheme, index) {
+            const card = document.createElement('div');
+            card.className = 'scheme-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            // Определяем статус
+            let badgeClass = 'badge-available';
+            let badgeText = 'ДОСТУПНА';
+            
+            if (scheme.deleted) {
+                badgeClass = 'badge-deleted';
+                badgeText = 'УДАЛЕНА';
+            } else if (scheme.deleted_on_the_source) {
+                badgeClass = 'badge-archived';
+                badgeText = 'АРХИВНАЯ';
+            }
+            
+            // Проверяем, сохранена ли схема
+            const isSaved = currentUser.savedSchemes && currentUser.savedSchemes.includes(scheme.name);
+            const saveIcon = isSaved ? 'fas fa-bookmark' : 'far fa-bookmark';
+            const saveText = isSaved ? 'В сохраненных' : 'Сохранить';
+            
+            // Проверяем, есть ли оценка пользователя
+            const userRating = currentUser.myRatings && currentUser.myRatings[scheme.name];
+            const ratingText = userRating ? `Ваша оценка: ${userRating}/5` : 'Оценить';
+            
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="scheme-badge ${badgeClass}">${badgeText}</div>
+                    <div class="scheme-name">
+                        ${scheme.name}
+                        <span class="scheme-version">${scheme.version || '1.16+'}</span>
+                    </div>
+                    <div class="scheme-description">${scheme.description || 'Без описания'}</div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="scheme-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-user meta-icon"></i>
+                            <div>
+                                <div class="meta-label">Создатель</div>
+                                <div class="meta-value">${scheme.creator || 'Неизвестно'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meta-item">
+                            <i class="fas fa-search meta-icon"></i>
+                            <div>
+                                <div class="meta-label">Нашел</div>
+                                <div class="meta-value">${scheme.finder || 'Неизвестно'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meta-item">
+                            <i class="fas fa-gamepad meta-icon"></i>
+                            <div>
+                                <div class="meta-label">Режим</div>
+                                <div class="meta-value">${scheme.game_mode || 'Любой'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="meta-item">
+                            <i class="fas fa-clock meta-icon"></i>
+                            <div>
+                                <div class="meta-label">Время</div>
+                                <div class="meta-value">${scheme.build_time || 'Не указано'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scheme-tags">
+                        ${scheme.difficulty ? `<span class="tag difficulty">${scheme.difficulty}</span>` : ''}
+                        ${scheme.size ? `<span class="tag">${scheme.size}</span>` : ''}
+                        ${scheme.redstone ? `<span class="tag">${scheme.redstone}</span>` : ''}
+                        ${scheme.materials && scheme.materials.length > 0 ? `<span class="tag">${scheme.materials.length} материалов</span>` : ''}
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="card-actions">
+                        <button class="action-btn" onclick="toggleSaveScheme('${scheme.name.replace(/'/g, "\\'")}')">
+                            <i class="${saveIcon}"></i> ${saveText}
+                        </button>
+                        <button class="action-btn" onclick="rateScheme('${scheme.name.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-star"></i> ${ratingText}
+                        </button>
+                    </div>
+                    <button class="action-btn primary" onclick="downloadScheme('${scheme.path}', '${scheme.name.replace(/'/g, "\\'")}')"
+                            ${scheme.deleted ? 'disabled' : ''}>
+                        <i class="fas fa-download"></i>
+                        ${scheme.deleted ? 'Недоступно' : scheme.deleted_on_the_source ? 'Скачать архив' : 'Скачать сейчас'}
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Скачать схему
+        function downloadScheme(url, name) {
+            // Обновляем статистику пользователя
+            currentUser.downloads++;
+            updateUserUI();
+            
+            // Проверяем достижения
+            if (currentUser.downloads === 1) {
+                giveAchievement('Первое скачивание', 'fas fa-download');
+            } else if (currentUser.downloads === 10) {
+                giveAchievement('Активный скачиватель', 'fas fa-download');
+                currentUser.level++;
+                updateUserUI();
+            } else if (currentUser.downloads === 50) {
+                giveAchievement('Коллекционер схем', 'fas fa-trophy');
+                currentUser.level += 2;
+                updateUserUI();
+            }
+            
+            showNotification(`Скачивание "${name}"...`, 'success');
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.download = `${name.replace(/\s+/g, '_')}.litematic`;
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            setTimeout(() => {
+                showNotification(`Схема "${name}" скачана!`, 'success');
+            }, 1000);
+        }
+        
+        // Сохранить/удалить схему из избранного
+        function toggleSaveScheme(schemeName) {
+            if (!currentUser.savedSchemes) {
+                currentUser.savedSchemes = [];
+            }
+            
+            const index = currentUser.savedSchemes.indexOf(schemeName);
+            
+            if (index === -1) {
+                // Сохраняем
+                currentUser.savedSchemes.push(schemeName);
+                showNotification(`Схема "${schemeName}" добавлена в сохраненные`, 'success');
+                
+                // Проверяем достижение
+                if (currentUser.savedSchemes.length === 5) {
+                    giveAchievement('Коллекционер', 'fas fa-bookmark');
+                }
+            } else {
+                // Удаляем
+                currentUser.savedSchemes.splice(index, 1);
+                showNotification(`Схема "${schemeName}" удалена из сохраненных`, 'warning');
+            }
+            
+            saveUserData();
+            
+            // Если активен фильтр "Мои сохраненные", обновляем список
+            if (currentFilter === 'my') {
+                applyFilters();
+            }
+        }
+        
+        // Оценить схему
+        function rateScheme(schemeName) {
+            window.currentRatingScheme = schemeName;
+            openModal('ratingModal');
+        }
+        
+        // Отправить оценку
+        function submitRating() {
+            const schemeName = window.currentRatingScheme;
+            const stars = document.querySelectorAll('#modalStars .star.active');
+            const rating = stars.length;
+            const comment = document.getElementById('ratingComment').value.trim();
+            
+            if (rating === 0) {
+                showNotification('Выберите оценку от 1 до 5 звезд', 'error');
+                return;
+            }
+            
+            // Сохраняем оценку пользователя
+            if (!currentUser.myRatings) {
+                currentUser.myRatings = {};
+            }
+            currentUser.myRatings[schemeName] = rating;
+            
+            // Обновляем статистику
+            updateUserUI();
+            
+            closeModal('ratingModal');
+            
+            // Сбрасываем форму
+            document.querySelectorAll('#modalStars .star').forEach(star => star.classList.remove('active'));
+            document.getElementById('ratingComment').value = '';
+            
+            showNotification(`Вы оценили схему "${schemeName}" на ${rating}/5`, 'success');
+            
+            // Проверяем достижение
+            const ratedCount = Object.keys(currentUser.myRatings).length;
+            if (ratedCount === 1) {
+                giveAchievement('Первый отзыв', 'fas fa-star');
+            } else if (ratedCount === 10) {
+                giveAchievement('Активный оценщик', 'fas fa-star');
+                currentUser.level++;
+                updateUserUI();
+            }
+            
+            saveUserData();
+        }
+        
+        // Настроить звезды оценки
+        function setupRatingStars() {
+            const stars = document.querySelectorAll('#modalStars .star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    
+                    // Удаляем активный класс у всех звезд
+                    stars.forEach(s => s.classList.remove('active'));
+                    
+                    // Добавляем активный класс до выбранной звезды
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.add('active');
+                    }
+                });
+                
+                star.addEventListener('mouseover', function() {
+                    const value = parseInt(this.dataset.value);
+                    
+                    // Подсвечиваем звезды при наведении
+                    stars.forEach((s, index) => {
+                        if (index < value) {
+                            s.classList.add('hover');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', function() {
+                    // Убираем подсветку
+                    stars.forEach(s => s.classList.remove('hover'));
+                });
+            });
+        }
+        
+        // Загрузить топ пользователей
+        function loadTopUsers() {
+            const topUsersList = document.getElementById('topUsersList');
+            
+            // Пример данных топ пользователей
+            const topUsers = [
+                {
+                    name: 'Cobaken555',
+                    avatar: 'C',
+                    role: 'Основатель',
+                    level: 15,
+                    downloads: 128,
+                    ratings: 45,
+                    schemes: 12
+                },
+                {
+                    name: 'BuilderPro',
+                    avatar: 'B',
+                    role: 'Архитектор',
+                    level: 12,
+                    downloads: 89,
+                    ratings: 32,
+                    schemes: 8
+                },
+                {
+                    name: 'RedstoneMaster',
+                    avatar: 'R',
+                    role: 'Инженер',
+                    level: 10,
+                    downloads: 76,
+                    ratings: 28,
+                    schemes: 6
+                },
+                {
+                    name: 'MinecraftFan',
+                    avatar: 'M',
+                    role: 'Энтузиаст',
+                    level: 8,
+                    downloads: 54,
+                    ratings: 21,
+                    schemes: 3
+                }
+            ];
+            
+            topUsersList.innerHTML = '';
+            
+            topUsers.forEach((user, index) => {
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                userCard.style.animationDelay = `${index * 0.1}s`;
+                
+                userCard.innerHTML = `
+                    <div class="user-rank">${index + 1}</div>
+                    <div class="user-card-header">
+                        <div class="user-card-avatar">${user.avatar}</div>
+                        <div class="user-card-info">
+                            <div class="user-card-name">${user.name}</div>
+                            <div class="user-card-role">${user.role}</div>
+                        </div>
+                    </div>
+                    <div class="user-card-stats">
+                        <div class="user-card-stat">
+                            <div class="user-card-stat-value">${user.level}</div>
+                            <div class="user-card-stat-label">Уровень</div>
+                        </div>
+                        <div class="user-card-stat">
+                            <div class="user-card-stat-value">${user.downloads}</div>
+                            <div class="user-card-stat-label">Скачиваний</div>
+                        </div>
+                        <div class="user-card-stat">
+                            <div class="user-card-stat-value">${user.schemes}</div>
+                            <div class="user-card-stat-label">Схем</div>
+                        </div>
+                    </div>
+                `;
+                
+                topUsersList.appendChild(userCard);
+            });
+        }
+        
+        // Показать ошибку
+        function showErrorState() {
+            const schemesList = document.getElementById('schemesList');
+            schemesList.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px;"></i>
+                    <div style="font-size: 1.3rem; color: #FFCDD2; margin-bottom: 15px;">Ошибка загрузки схем</div>
+                    <div style="color: #FFCCBC; font-size: 0.95rem; margin-bottom: 20px;">
+                        Убедитесь, что файл litematica.json находится рядом с index.html
+                    </div>
+                    <button class="action-btn primary" onclick="loadSchemes()" style="max-width: 200px; margin: 0 auto;">
+                        <i class="fas fa-sync-alt"></i> Попробовать снова
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Показать уведомление
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            const icon = notification.querySelector('i');
+            
+            text.textContent = message;
+            notification.className = `notification ${type}`;
+            
+            icon.className = type === 'error' ? 'fas fa-exclamation-circle' : 
+                            type === 'warning' ? 'fas fa-exclamation-triangle' : 
+                            'fas fa-check-circle';
             
             notification.style.display = 'flex';
             
@@ -472,288 +2238,127 @@
             }, 3000);
         }
         
-        // Загрузить схемы из litematica.json
-        async function loadSchemesFromJson() {
-            const schemesList = document.getElementById('schemesList');
+        // Дать достижение
+        function giveAchievement(title, icon) {
+            if (!currentUser.achievements) {
+                currentUser.achievements = [];
+            }
             
-            try {
-                // Пытаемся загрузить litematica.json
-                const response = await fetch('litematica.json');
+            // Проверяем, есть ли уже такое достижение
+            if (!currentUser.achievements.includes(title)) {
+                currentUser.achievements.push(title);
+                showNotification(`Получено достижение: ${title}`, 'success');
                 
-                if (!response.ok) {
-                    throw new Error(`Ошибка загрузки: ${response.status}`);
-                }
-                
-                const jsonData = await response.json();
-                
-                // Скрываем индикатор загрузки
-                document.getElementById('loadingIndicator').style.display = 'none';
-                
-                // Очищаем список
-                schemesList.innerHTML = '';
-                
-                // Проверяем структуру JSON
-                if (!jsonData.schemes || !Array.isArray(jsonData.schemes)) {
-                    schemesList.innerHTML = `
-                        <div class="no-schemes">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px; color: #ff9800;"></i>
-                            <div>Ошибка в структуре JSON. Убедитесь, что есть массив "schemes"</div>
-                        </div>
-                    `;
-                    showNotification('Ошибка в структуре litematica.json', true);
-                    return;
-                }
-                
-                // Если массив пустой
-                if (jsonData.schemes.length === 0) {
-                    schemesList.innerHTML = `
-                        <div class="no-schemes">
-                            <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 15px;"></i>
-                            <div>Список схем пуст. Добавьте схемы в litematica.json</div>
-                        </div>
-                    `;
-                    showNotification('litematica.json пуст. Добавьте схемы.');
-                    return;
-                }
-                
-                // Статистика
-                let availableCount = 0;
-                let deletedSourceCount = 0;
-                let deletedCount = 0;
-                
-                // Создаем карточки для каждой схемы
-                jsonData.schemes.forEach((scheme, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'scheme-card';
-                    
-                    // Определяем статус схемы
-                    const isDeleted = scheme.deleted === true;
-                    const isDeletedOnSource = scheme.deleted_on_the_source === true;
-                    
-                    // Обновляем статистику
-                    if (isDeleted) {
-                        deletedCount++;
-                    } else if (isDeletedOnSource) {
-                        deletedSourceCount++;
-                    } else {
-                        availableCount++;
-                    }
-                    
-                    // Создаем URL для скачивания
-                    let downloadUrl = scheme.path;
-                    
-                    // Определяем бейдж
-                    let badgeClass = 'badge-available';
-                    let badgeText = 'ДОСТУПНА';
-                    
-                    if (isDeleted) {
-                        badgeClass = 'badge-deleted';
-                        badgeText = 'УДАЛЕНА';
-                    } else if (isDeletedOnSource) {
-                        badgeClass = 'badge-deleted-source';
-                        badgeText = 'УДАЛЕНА НА ИСТОЧНИКЕ';
-                    }
-                    
-                    // Создаем HTML карточки
-                    card.innerHTML = `
-                        <div class="scheme-badge ${badgeClass}">${badgeText}</div>
-                        
-                        <div class="scheme-name">
-                            <i class="fas fa-cube"></i>
-                            ${scheme.name}
-                            <span class="scheme-version">${scheme.version || '1.16+'}</span>
-                        </div>
-                        
-                        <div class="scheme-details">
-                            ${scheme.description ? `
-                            <div class="scheme-detail">
-                                <i class="fas fa-align-left"></i>
-                                <span><strong>Описание:</strong> ${scheme.description}</span>
-                            </div>` : ''}
-                            
-                            ${scheme.creator ? `
-                            <div class="scheme-detail">
-                                <i class="fas fa-user"></i>
-                                <span><strong>Создатель:</strong> ${scheme.creator}</span>
-                            </div>` : ''}
-                            
-                            ${scheme.finder ? `
-                            <div class="scheme-detail">
-                                <i class="fas fa-search"></i>
-                                <span><strong>Нашел:</strong> ${scheme.finder}</span>
-                            </div>` : ''}
-                            
-                            ${scheme.source ? `
-                            <div class="scheme-detail">
-                                <i class="fas fa-globe"></i>
-                                <span><strong>Источник:</strong> ${scheme.source}</span>
-                            </div>` : ''}
-                            
-                            ${isDeletedOnSource ? `
-                            <div class="warning-note">
-                                <i class="fas fa-info-circle"></i>
-                                <div>Эта схема была удалена на оригинальном сайте, но сохранена здесь</div>
-                            </div>` : ''}
-                        </div>
-                        
-                        <div class="scheme-path">
-                            <i class="fas fa-link"></i> ${downloadUrl}
-                        </div>
-                        
-                        <button class="download-btn" 
-                                data-url="${downloadUrl}" 
-                                data-name="${scheme.name}"
-                                ${isDeleted ? 'disabled' : ''}>
-                            <i class="fas fa-download"></i> 
-                            ${isDeleted ? 'Схема удалена' : isDeletedOnSource ? 'Скачать (архивная)' : 'Скачать схему'}
-                        </button>
-                    `;
-                    
-                    schemesList.appendChild(card);
-                });
-                
-                // Добавляем обработчики для кнопок скачивания
-                document.querySelectorAll('.download-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        if (this.disabled) {
-                            showNotification('Эта схема была полностью удалена', true);
-                            return;
-                        }
-                        
-                        const schemeName = this.getAttribute('data-name');
-                        const downloadUrl = this.getAttribute('data-url');
-                        
-                        // Определяем тип скачивания
-                        const isArchival = this.textContent.includes('архивная');
-                        const message = isArchival ? 
-                            `Скачивание архивной схемы "${schemeName}"...` : 
-                            `Скачивание "${schemeName}"...`;
-                        
-                        // Показываем уведомление о начале скачивания
-                        showNotification(message);
-                        
-                        // Скачиваем файл
-                        downloadFile(downloadUrl, `${schemeName.replace(/\s+/g, '_')}.litematic`);
-                    });
-                });
-                
-                // Обновляем статистику
-                updateStats(jsonData.schemes.length, availableCount, deletedSourceCount, deletedCount);
-                
-                showNotification(`Загружено ${jsonData.schemes.length} схем из litematica.json`);
-                
-            } catch (error) {
-                console.error('Ошибка загрузки litematica.json:', error);
-                
-                // Скрываем индикатор загрузки
-                document.getElementById('loadingIndicator').style.display = 'none';
-                
-                // Показываем сообщение об ошибке
-                schemesList.innerHTML = `
-                    <div class="no-schemes">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px; color: #ff9800;"></i>
-                        <div>Не удалось загрузить litematica.json</div>
-                        <p style="margin-top: 10px; color: #b0bec5; font-size: 0.9rem;">
-                            Убедитесь, что файл litematica.json находится рядом с index.html
-                        </p>
-                        <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 5px;">
-                            <p style="color: #ffcc80; margin-bottom: 10px;">Пример содержимого litematica.json:</p>
-                            <div style="font-family: monospace; font-size: 0.8rem; color: #b0bec5;">
-{
-  "schemes": [
-    {
-      "name": "3x3 fricker sheeper",
-      "version": "1.16.5-1.21.11+",
-      "path": "https://raw.githubusercontent.com/Cobaken555/litematicabuildsite/main/bin/litematica/3x3_door_fricker_sheepler.litematic",
-      "description": "Компактная 3x3 машина",
-      "creator": "Cobaken555",
-      "finder": "Cobaken555",
-      "source": "GitHub",
-      "deleted_on_the_source": false,
-      "deleted": false
-    },
-    {
-      "name": "Архивная схема",
-      "version": "1.18.2",
-      "path": "https://ваш-сайт/archived_scheme.litematic",
-      "description": "Схема удаленная на PlanetMinecraft",
-      "creator": "Unknown",
-      "finder": "Cobaken555",
-      "source": "PlanetMinecraft",
-      "deleted_on_the_source": true,
-      "deleted": false
-    }
-  ]
-}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                showNotification('Ошибка загрузки litematica.json', true);
+                // Сохраняем
+                saveUserData();
             }
         }
         
-        // Обновить статистику
-        function updateStats(total, available, deletedSource, deleted) {
-            const statsContainer = document.getElementById('statsContainer');
-            statsContainer.style.display = 'flex';
-            
-            document.getElementById('totalSchemes').textContent = total;
-            document.getElementById('availableSchemes').textContent = available;
-            document.getElementById('deletedSourceSchemes').textContent = deletedSource;
-            document.getElementById('deletedSchemes').textContent = deleted;
+        // Сбросить гостевой профиль
+        function resetGuest() {
+            if (confirm('Вы уверены, что хотите сбросить профиль? Все ваши данные будут удалены.')) {
+                localStorage.removeItem('litematica_user');
+                location.reload();
+            }
         }
         
-        // Функция для скачивания файла
-        function downloadFile(url, filename) {
-            // Создаем временную ссылку для скачивания
-            const link = document.createElement('a');
-            
-            link.href = url;
-            link.target = '_blank';
-            link.download = filename;
-            link.style.display = 'none';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Показываем уведомление об успешном скачивании
-            setTimeout(() => {
-                showNotification(`Схема "${filename}" скачана!`);
-            }, 1000);
+        // Другие функции профиля (заглушки)
+        function viewMyCollection() {
+            currentFilter = 'my';
+            document.querySelector('[data-tab="schemes"]').click();
+            showNotification('Показаны ваши сохраненные схемы', 'success');
         }
         
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем схемы при загрузке страницы
-            loadSchemesFromJson();
+        function viewMyRatings() {
+            showNotification('Ваши оценки загружаются...', 'warning');
+        }
+        
+        function viewAchievements() {
+            const achievements = currentUser.achievements || [];
+            if (achievements.length === 0) {
+                showNotification('У вас пока нет достижений', 'warning');
+            } else {
+                const list = achievements.map(a => `• ${a}`).join('\n');
+                alert(`Ваши достижения:\n\n${list}`);
+            }
+        }
+        
+        function viewStats() {
+            const stats = `
+📊 Ваша статистика:
+
+👤 Имя: ${currentUser.name}
+🎖️ Уровень: ${currentUser.level}
+📥 Скачано схем: ${currentUser.downloads}
+⭐ Оценок оставлено: ${Object.keys(currentUser.myRatings || {}).length}
+💾 Сохранено схем: ${(currentUser.savedSchemes || []).length}
+🏆 Достижений: ${(currentUser.achievements || []).length}
+            `;
+            alert(stats);
+        }
+        
+        function createCollection() {
+            showNotification('Функция создания коллекций скоро будет доступна!', 'warning');
+        }
+        
+        function postComment() {
+            const commentText = document.getElementById('newComment').value.trim();
             
-            // Добавляем обработчик для кнопки обновления
-            document.getElementById('refreshBtn').addEventListener('click', function() {
-                // Показываем индикатор загрузки
-                const schemesList = document.getElementById('schemesList');
-                schemesList.innerHTML = `
-                    <div class="loading" id="loadingIndicator">
-                        <i class="fas fa-spinner"></i>
-                        <div>Обновление списка схем...</div>
-                    </div>
-                `;
-                
-                // Скрываем статистику
-                document.getElementById('statsContainer').style.display = 'none';
-                
-                // Загружаем схемы заново
-                loadSchemesFromJson();
-            });
+            if (!commentText) {
+                showNotification('Введите текст комментария', 'error');
+                return;
+            }
             
-            // Автоматическое обновление каждые 5 минут
-            setInterval(() => {
-                console.log('Автообновление списка схем...');
-                loadSchemesFromJson();
-            }, 5 * 60 * 1000);
-        });
+            if (currentUser.name === 'Гость') {
+                showNotification('Войдите в систему, чтобы оставлять комментарии', 'warning');
+                openModal('loginModal');
+                return;
+            }
+            
+            // Добавляем комментарий
+            const commentsList = document.getElementById('commentsList');
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment';
+            commentDiv.innerHTML = `
+                <div class="comment-header">
+                    <div class="comment-avatar">${currentUser.avatar}</div>
+                    <div class="comment-author">${currentUser.name}</div>
+                    <div class="comment-date">Только что</div>
+                </div>
+                <div class="comment-text">${commentText}</div>
+            `;
+            
+            commentsList.insertBefore(commentDiv, commentsList.firstChild);
+            
+            // Очищаем поле ввода
+            document.getElementById('newComment').value = '';
+            
+            showNotification('Комментарий опубликован', 'success');
+            
+            // Даем достижение за первый комментарий
+            giveAchievement('Первый комментарий', 'fas fa-comment');
+        }
+        
+        // Инициализация звезд рейтинга
+        setTimeout(() => {
+            setupRatingStars();
+        }, 1000);
+        
+        // Глобальные функции
+        window.downloadScheme = downloadScheme;
+        window.toggleSaveScheme = toggleSaveScheme;
+        window.rateScheme = rateScheme;
+        window.submitRating = submitRating;
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.login = login;
+        window.resetGuest = resetGuest;
+        window.viewMyCollection = viewMyCollection;
+        window.viewMyRatings = viewMyRatings;
+        window.viewAchievements = viewAchievements;
+        window.viewStats = viewStats;
+        window.createCollection = createCollection;
+        window.postComment = postComment;
     </script>
 </body>
 </html>
