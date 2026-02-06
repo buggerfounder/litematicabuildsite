@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4CAF50; /* ЗЕЛЕНЫЙ как Minecraft трава */
+            --primary: #4CAF50;
             --primary-dark: #2E7D32;
-            --secondary: #2196F3; /* СИНИЙ/ГОЛУБОЙ */
+            --secondary: #2196F3;
             --secondary-light: #03A9F4;
-            --accent: #FF9800; /* ОРАНЖЕВЫЙ для акцентов */
+            --accent: #FF9800;
             --dark: #121212;
             --dark-light: #1E1E1E;
             --light: #FFFFFF;
@@ -19,6 +19,7 @@
             --success: #4CAF50;
             --warning: #FF9800;
             --danger: #F44336;
+            --archived: #9C27B0; /* Фиолетовый для архивных */
         }
 
         * {
@@ -32,10 +33,9 @@
             background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%);
             color: var(--light);
             min-height: 100vh;
-            padding-top: 80px; /* Для фиксированного хедера */
+            padding-top: 80px;
         }
 
-        /* ХЕДЕР */
         header {
             position: fixed;
             top: 0;
@@ -91,14 +91,12 @@
             font-size: 1.2rem;
         }
 
-        /* ОСНОВНОЙ КОНТЕНТ */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* СТАТИСТИКА */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -136,7 +134,6 @@
             font-size: 0.9rem;
         }
 
-        /* ПОИСК И ФИЛЬТРЫ */
         .search-section {
             background: rgba(30, 30, 30, 0.7);
             border-radius: 10px;
@@ -215,20 +212,18 @@
             font-weight: bold;
         }
 
-        /* ГРИД СХЕМ */
         .schemes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 25px;
-            align-items: stretch; /* Выровнять карточки по высоте */
+            align-items: stretch;
             margin-bottom: 40px;
         }
 
-        /* КАРТОЧКА СХЕМЫ */
         .scheme-card {
             display: flex;
             flex-direction: column;
-            height: 100%; /* Равная высота карточек в ряду */
+            height: 100%;
             background: rgba(30, 30, 30, 0.8);
             border-radius: 12px;
             overflow: hidden;
@@ -245,7 +240,7 @@
         .card-header {
             padding: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0; /* Не сжимать этот блок */
+            flex-shrink: 0;
         }
 
         .scheme-title {
@@ -277,12 +272,17 @@
         }
 
         .badge-archived {
-            background: var(--secondary);
+            background: var(--archived);
             color: white;
         }
 
         .badge-deleted {
             background: var(--danger);
+            color: white;
+        }
+
+        .badge-source-deleted {
+            background: var(--warning);
             color: white;
         }
 
@@ -309,19 +309,19 @@
             font-size: 0.95rem;
             line-height: 1.5;
             margin-bottom: 15px;
-            word-wrap: break-word; /* Перенос длинных слов */
-            overflow-wrap: break-word; /* Современный перенос */
-            white-space: normal; /* Разрешить перенос строк */
-            max-width: 100%; /* Не выходить за границы */
-            flex-grow: 1; /* Описание занимает доступное пространство */
-            min-height: 60px; /* Минимальная высота для выравнивания */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            max-width: 100%;
+            flex-grow: 1;
+            min-height: 60px;
         }
 
         .scheme-details {
             padding: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0; /* Не сжимать этот блок */
+            flex-shrink: 0;
         }
 
         .detail-row {
@@ -345,7 +345,7 @@
         .scheme-tags {
             padding: 15px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0; /* Не сжимать этот блок */
+            flex-shrink: 0;
         }
 
         .tags-container {
@@ -367,7 +367,7 @@
             padding: 20px;
             display: flex;
             gap: 15px;
-            flex-shrink: 0; /* Не сжимать этот блок */
+            flex-shrink: 0;
         }
 
         .btn {
@@ -407,13 +407,27 @@
             box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
         }
 
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
         }
 
-        /* ИНФОРМАЦИЯ О JSON */
+        .warning-text {
+            color: var(--warning);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         .json-info {
             background: rgba(30, 30, 30, 0.7);
             border-radius: 10px;
@@ -462,7 +476,6 @@
             font-weight: bold;
         }
 
-        /* УВЕДОМЛЕНИЯ */
         .notification {
             position: fixed;
             top: 100px;
@@ -487,6 +500,11 @@
             border-left: 5px solid #b71c1c;
         }
 
+        .notification.warning {
+            background: var(--warning);
+            border-left: 5px solid #F57C00;
+        }
+
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -508,7 +526,6 @@
             }
         }
 
-        /* ФУТЕР */
         footer {
             text-align: center;
             padding: 20px;
@@ -518,7 +535,6 @@
             margin-top: 40px;
         }
 
-        /* АДАПТИВНОСТЬ */
         @media (max-width: 768px) {
             .schemes-grid {
                 grid-template-columns: 1fr;
@@ -561,7 +577,6 @@
             }
         }
 
-        /* АНИМАЦИИ ЗАГРУЗКИ */
         .loading {
             text-align: center;
             padding: 40px;
@@ -584,7 +599,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ */
         .separator {
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.5), transparent);
@@ -602,7 +616,6 @@
     </style>
 </head>
 <body>
-    <!-- ХЕДЕР -->
     <header>
         <div class="logo">
             <div class="logo-icon">
@@ -619,9 +632,7 @@
         </div>
     </header>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <div class="container">
-        <!-- СТАТИСТИКА -->
         <div class="stats-container">
             <div class="stat-card">
                 <i class="fas fa-layer-group" style="color: var(--primary);"></i>
@@ -634,7 +645,7 @@
                 <div class="stat-label">Доступно</div>
             </div>
             <div class="stat-card">
-                <i class="fas fa-archive" style="color: var(--secondary);"></i>
+                <i class="fas fa-archive" style="color: var(--archived);"></i>
                 <div class="stat-number" id="archived-schemes">0</div>
                 <div class="stat-label">В архиве</div>
             </div>
@@ -645,7 +656,6 @@
             </div>
         </div>
 
-        <!-- ПОИСК И ФИЛЬТРЫ -->
         <section class="search-section">
             <div class="search-container">
                 <input type="text" class="search-input" id="search-input" placeholder="Поиск схем...">
@@ -667,7 +677,6 @@
             </div>
         </section>
 
-        <!-- СПИСОК СХЕМ -->
         <div id="loading" class="loading">
             <div class="loading-spinner"></div>
             <p>Загрузка схем...</p>
@@ -677,50 +686,40 @@
             <!-- Карточки схем будут загружены здесь -->
         </div>
 
-        <!-- ИНФОРМАЦИЯ О JSON -->
         <section class="json-info">
             <h3><i class="fas fa-info-circle"></i> Формат файла litematica.json</h3>
-            <p>Для добавления своих схем создайте файл <span class="highlight">litematica.json</span> рядом с index.html со следующей структурой:</p>
+            <p>Для добавления своих схем создайте файл <span class="highlight">litematica.json</span> рядом с index.html:</p>
             
             <pre><code>{
   "schemes": [
     {
       "name": "Название схемы",
       "version": "1.19.2",
-      "path": "https://example.com/scheme.litematic",
-      "description": "Описание схемы...",
+      "path": "https://ваш-сайт/scheme.litematic",
+      "description": "Описание...",
       "creator": "Автор",
-      "finder": "Кто нашел",
-      "source": "Источник",
       "difficulty": "Легкая",
       "game_mode": "Выживание",
-      "materials": ["Дуб", "Камень", "Стекло"],
+      "materials": ["Дуб", "Камень"],
       "size": "Средний",
-      "redstone": "Базовый",
       "build_time": "2-3 часа",
-      "features": ["Автоферма", "Склад"],
-      "deleted_on_the_source": false,
-      "deleted": false
+      "features": ["Ферма", "Склад"],
+      "deleted_on_the_source": false, // удалена на исходнике
+      "deleted": false // удалена везде (нельзя скачать)
     }
   ]
 }</code></pre>
             
-            <h4>Описание полей:</h4>
+            <h4>Важные пояснения:</h4>
             <div class="field-list">
-                <div class="field-item"><span class="field-name">name:</span> Название схемы</div>
-                <div class="field-item"><span class="field-name">version:</span> Версия Minecraft</div>
-                <div class="field-item"><span class="field-name">path:</span> Ссылка для скачивания</div>
-                <div class="field-item"><span class="field-name">description:</span> Подробное описание</div>
-                <div class="field-item"><span class="field-name">creator:</span> Автор схемы</div>
-                <div class="field-item"><span class="field-name">difficulty:</span> Сложность (Легкая/Средняя/Сложная)</div>
-                <div class="field-item"><span class="field-name">game_mode:</span> Режим игры (Выживание/Креатив)</div>
-                <div class="field-item"><span class="field-name">materials:</span> Материалы для постройки</div>
-                <div class="field-item"><span class="field-name">deleted:</span> Если true - схема в архиве</div>
+                <div class="field-item"><span class="field-name">deleted: true</span> - схема удалена ВЕЗДЕ, скачать НЕЛЬЗЯ</div>
+                <div class="field-item"><span class="field-name">deleted_on_the_source: true</span> - удалена на исходном сайте, но у нас есть копия, скачать МОЖНО</div>
+                <div class="field-item"><span class="field-name">deleted: false</span> - активная схема, доступна для скачивания</div>
+                <div class="field-item"><span class="field-name">path</span> - ссылка для скачивания с ВАШЕГО сайта</div>
             </div>
         </section>
     </div>
 
-    <!-- ФУТЕР -->
     <footer>
         <p>Litematica Hub &copy; 2023 | Для Minecraft | Все схемы принадлежат их авторам</p>
         <p style="margin-top: 5px; font-size: 0.8rem; color: var(--gray);">
@@ -728,17 +727,14 @@
         </p>
     </footer>
 
-    <!-- УВЕДОМЛЕНИЯ -->
     <div id="notification-area"></div>
 
     <script>
-        // Глобальные переменные
         let allSchemes = [];
         let filteredSchemes = [];
         let currentFilter = 'all';
         let searchTimeout;
 
-        // Загрузка данных из JSON
         async function loadSchemes() {
             try {
                 const response = await fetch('litematica.json');
@@ -747,15 +743,10 @@
                 const data = await response.json();
                 allSchemes = data.schemes || [];
                 
-                // Обновляем статистику
                 updateStatistics();
-                
-                // Показываем все схемы
                 filterSchemes();
                 
-                // Скрываем индикатор загрузки
                 document.getElementById('loading').style.display = 'none';
-                
                 showNotification('Схемы успешно загружены!', 'success');
             } catch (error) {
                 console.error('Ошибка загрузки схем:', error);
@@ -764,18 +755,90 @@
                         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
                         <p>Не удалось загрузить схемы</p>
                         <p style="font-size: 0.9rem; margin-top: 10px;">${error.message}</p>
-                        <p style="font-size: 0.9rem; margin-top: 10px;">Убедитесь, что файл litematica.json находится в той же папке, что и index.html</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Создайте файл litematica.json в той же папке</p>
                     </div>
                 `;
                 showNotification('Ошибка загрузки схем', 'error');
+                
+                // Загружаем тестовые данные
+                setTimeout(() => loadTestData(), 1000);
             }
         }
 
-        // Обновление статистики
+        function loadTestData() {
+            allSchemes = [
+                {
+                    name: "Современный дом с бассейном",
+                    version: "1.19.2",
+                    path: "https://ваш-сайт/schemes/modern_house.litematic",
+                    description: "Современный дом с панорамными окнами и бассейном. Идеально для выживания.",
+                    creator: "BuilderMaster",
+                    difficulty: "Средняя",
+                    game_mode: "Выживание",
+                    materials: ["Белый бетон", "Стекло", "Дуб"],
+                    size: "Большой",
+                    build_time: "4-5 часов",
+                    features: ["Бассейн", "Гараж", "Сад"],
+                    deleted_on_the_source: false,
+                    deleted: false
+                },
+                {
+                    name: "Автоферма пшеницы",
+                    version: "1.18.1",
+                    path: "https://ваш-сайт/schemes/wheat_farm.litematic",
+                    description: "Компактная автоферма с системой сбора. Простая в постройке.",
+                    creator: "RedstoneExpert",
+                    difficulty: "Легкая",
+                    game_mode: "Выживание",
+                    materials: ["Дуб", "Камень", "Воронки"],
+                    size: "Малый",
+                    build_time: "1-2 часа",
+                    features: ["Автосбор", "Компактная"],
+                    deleted_on_the_source: false,
+                    deleted: false
+                },
+                {
+                    name: "Замок в средневековом стиле",
+                    version: "1.17.1",
+                    path: "https://ваш-сайт/schemes/medieval_castle.litematic",
+                    description: "Большой замок с башнями, внутренним двором и подземельем.",
+                    creator: "MedievalBuilder",
+                    difficulty: "Сложная",
+                    game_mode: "Креатив",
+                    materials: ["Каменный кирпич", "Дуб", "Стекло"],
+                    size: "Огромный",
+                    build_time: "10+ часов",
+                    features: ["Подземелье", "Башни", "Мост"],
+                    deleted_on_the_source: true, // Удалена на исходнике, но у нас есть
+                    deleted: false
+                },
+                {
+                    name: "Удаленная схема (пример)",
+                    version: "1.16.5",
+                    path: "https://ваш-сайт/schemes/deleted_scheme.litematic",
+                    description: "Эта схема была удалена и недоступна для скачивания.",
+                    creator: "Unknown",
+                    difficulty: "Легкая",
+                    game_mode: "Выживание",
+                    materials: ["Дерево", "Камень"],
+                    size: "Малый",
+                    build_time: "1 час",
+                    features: ["Простая"],
+                    deleted_on_the_source: false,
+                    deleted: true // Удалена ВЕЗДЕ - нельзя скачать
+                }
+            ];
+            
+            updateStatistics();
+            filterSchemes();
+            document.getElementById('loading').style.display = 'none';
+            showNotification('Загружены тестовые данные', 'warning');
+        }
+
         function updateStatistics() {
             const total = allSchemes.length;
-            const available = allSchemes.filter(s => !s.deleted && !s.deleted_on_the_source).length;
-            const archived = allSchemes.filter(s => s.deleted || s.deleted_on_the_source).length;
+            const available = allSchemes.filter(s => !s.deleted).length;
+            const archived = allSchemes.filter(s => s.deleted_on_the_source && !s.deleted).length;
             const creators = [...new Set(allSchemes.map(s => s.creator).filter(Boolean))].length;
             
             document.getElementById('total-schemes').textContent = total;
@@ -784,25 +847,19 @@
             document.getElementById('creators-count').textContent = creators;
         }
 
-        // Фильтрация и поиск схем
         function filterSchemes() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             
-            // Применяем фильтр
             filteredSchemes = allSchemes.filter(scheme => {
-                // Поиск по всем текстовым полям
                 if (searchTerm) {
                     const searchableText = [
                         scheme.name,
                         scheme.version,
                         scheme.description,
                         scheme.creator,
-                        scheme.finder,
-                        scheme.source,
                         scheme.difficulty,
                         scheme.game_mode,
                         scheme.size,
-                        scheme.redstone,
                         scheme.build_time,
                         ...(scheme.materials || []),
                         ...(scheme.features || [])
@@ -813,29 +870,24 @@
                     }
                 }
                 
-                // Применяем активный фильтр
                 switch (currentFilter) {
                     case 'available':
-                        return !scheme.deleted && !scheme.deleted_on_the_source;
+                        return !scheme.deleted;
                     case 'archived':
-                        return scheme.deleted || scheme.deleted_on_the_source;
+                        return scheme.deleted_on_the_source && !scheme.deleted;
                     case 'easy':
-                        return scheme.difficulty && scheme.difficulty.toLowerCase().includes('легк');
+                        return scheme.difficulty && scheme.difficulty.toLowerCase().includes('легк') && !scheme.deleted;
                     case 'survival':
-                        return scheme.game_mode && scheme.game_mode.toLowerCase().includes('выживан');
+                        return scheme.game_mode && scheme.game_mode.toLowerCase().includes('выживан') && !scheme.deleted;
                     default:
-                        return true; // 'all'
+                        return true;
                 }
             });
             
-            // Обновляем счетчик
             document.getElementById('results-count').textContent = filteredSchemes.length;
-            
-            // Отображаем схемы
             renderSchemes();
         }
 
-        // Отображение схем
         function renderSchemes() {
             const grid = document.getElementById('schemes-grid');
             
@@ -854,12 +906,25 @@
                 // Определяем статус схемы
                 let statusBadge = '';
                 let statusClass = '';
-                if (scheme.deleted || scheme.deleted_on_the_source) {
-                    statusBadge = 'Архив';
+                let canDownload = false;
+                let downloadText = 'Скачать';
+                let downloadClass = 'btn-primary';
+                
+                if (scheme.deleted) {
+                    statusBadge = 'Удалена';
+                    statusClass = 'badge-deleted';
+                    canDownload = false;
+                    downloadText = 'Недоступно';
+                    downloadClass = 'btn-danger';
+                } else if (scheme.deleted_on_the_source) {
+                    statusBadge = 'Архивная';
                     statusClass = 'badge-archived';
+                    canDownload = true;
+                    downloadText = 'Скачать архив';
                 } else {
                     statusBadge = 'Доступна';
                     statusClass = 'badge-available';
+                    canDownload = true;
                 }
                 
                 // Формируем теги
@@ -878,6 +943,11 @@
                                 <span class="scheme-creator"><i class="fas fa-user"></i> ${scheme.creator || 'Неизвестно'}</span>
                             </div>
                             <div class="scheme-description">${scheme.description || 'Описание отсутствует'}</div>
+                            ${scheme.deleted_on_the_source && !scheme.deleted ? 
+                                `<div class="warning-text">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Удалена на исходном сайте, но доступна у нас
+                                </div>` : ''}
                         </div>
                         
                         <div class="scheme-details">
@@ -899,13 +969,6 @@
                                     <span>${scheme.size || 'Не указан'}</span>
                                 </div>
                             </div>
-                            ${scheme.redstone ? `
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <i class="fas fa-bolt"></i>
-                                    <span>Редстоун: ${scheme.redstone}</span>
-                                </div>
-                            </div>` : ''}
                         </div>
                         
                         ${tags.length > 0 ? `
@@ -920,9 +983,10 @@
                             <button class="btn btn-secondary" onclick="saveScheme('${scheme.name}')">
                                 <i class="far fa-bookmark"></i> Сохранить
                             </button>
-                            <button class="btn btn-primary" onclick="downloadScheme('${scheme.path}', '${scheme.name}')" 
-                                ${(!scheme.path || scheme.deleted || scheme.deleted_on_the_source) ? 'disabled' : ''}>
-                                <i class="fas fa-download"></i> Скачать
+                            <button class="btn ${downloadClass}" 
+                                onclick="${canDownload ? `downloadScheme('${scheme.path}', '${scheme.name}', ${scheme.deleted_on_the_source})` : 'showDeletedMessage()'}" 
+                                ${!canDownload ? 'disabled' : ''}>
+                                <i class="fas fa-download"></i> ${downloadText}
                             </button>
                         </div>
                     </div>
@@ -930,23 +994,29 @@
             }).join('');
         }
 
-        // Скачивание схемы
-        function downloadScheme(url, name) {
+        function downloadScheme(url, name, isArchived = false) {
             if (!url || url === 'https://ссылка.на.файл.litematic') {
-                showNotification('Ссылка для скачивания отсутствует', 'error');
+                showNotification('Ссылка для скачивания не настроена', 'error');
                 return;
             }
             
             window.open(url, '_blank');
-            showNotification(`Скачивание: ${name}`, 'success');
+            showNotification(
+                isArchived ? 
+                `Скачивание архивной схемы: ${name}` : 
+                `Скачивание: ${name}`, 
+                isArchived ? 'warning' : 'success'
+            );
         }
 
-        // Сохранение схемы (заглушка)
+        function showDeletedMessage() {
+            showNotification('Эта схема удалена и недоступна для скачивания', 'error');
+        }
+
         function saveScheme(name) {
             showNotification(`Схема "${name}" добавлена в избранное`, 'success');
         }
 
-        // Показать уведомление
         function showNotification(message, type) {
             const notificationArea = document.getElementById('notification-area');
             const notification = document.createElement('div');
@@ -954,7 +1024,6 @@
             notification.textContent = message;
             notificationArea.appendChild(notification);
             
-            // Удаляем уведомление через 3 секунды
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.parentNode.removeChild(notification);
@@ -962,79 +1031,22 @@
             }, 3000);
         }
 
-        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
-            // Загружаем схемы
             loadSchemes();
             
-            // Обработка поиска с debounce
             document.getElementById('search-input').addEventListener('input', () => {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(filterSchemes, 300);
             });
             
-            // Обработка фильтров
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Убираем активный класс у всех кнопок
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    // Добавляем активный класс нажатой кнопке
                     btn.classList.add('active');
-                    // Устанавливаем текущий фильтр
                     currentFilter = btn.dataset.filter;
-                    // Применяем фильтр
                     filterSchemes();
                 });
             });
-            
-            // Пример данных для тестирования (если файл JSON отсутствует)
-            setTimeout(() => {
-                if (allSchemes.length === 0) {
-                    console.log('Файл litematica.json не найден, используем тестовые данные');
-                    allSchemes = [
-                        {
-                            name: "Современный дом",
-                            version: "1.19.2",
-                            path: "https://example.com/modern_house.litematic",
-                            description: "Современный дом с панорамными окнами, гаражом на 2 машины и бассейном. Идеально подходит для выживания.",
-                            creator: "BuilderMaster",
-                            finder: "RedditUser123",
-                            source: "PlanetMinecraft",
-                            difficulty: "Средняя",
-                            game_mode: "Выживание",
-                            materials: ["Белый бетон", "Темный дуб", "Стекло", "Каменный кирпич"],
-                            size: "Большой",
-                            redstone: "Базовый",
-                            build_time: "4-5 часов",
-                            features: ["Гараж", "Бассейн", "Панорамные окна", "Сад на крыше"],
-                            deleted_on_the_source: false,
-                            deleted: false
-                        },
-                        {
-                            name: "Автоферма пшеницы",
-                            version: "1.18.1",
-                            path: "https://example.com/wheat_farm.litematic",
-                            description: "Компактная автоферма пшеницы с системой сбора и хранения. Простая в постройке, эффективная.",
-                            creator: "RedstoneExpert",
-                            finder: "MinecraftForumUser",
-                            source: "YouTube",
-                            difficulty: "Легкая",
-                            game_mode: "Выживание",
-                            materials: ["Дуб", "Камень", "Ведра", "Воронки"],
-                            size: "Малый",
-                            redstone: "Средний",
-                            build_time: "1-2 часа",
-                            features: ["Автосбор", "Хранение", "Компактная"],
-                            deleted_on_the_source: false,
-                            deleted: false
-                        }
-                    ];
-                    updateStatistics();
-                    filterSchemes();
-                    document.getElementById('loading').style.display = 'none';
-                    showNotification('Загружены тестовые данные', 'warning');
-                }
-            }, 2000);
         });
     </script>
 </body>
